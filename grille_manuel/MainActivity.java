@@ -38,17 +38,18 @@ https://android--code.blogspot.com/2015/08/android-gridview-add-item.html
  */
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private int previousSelectedPosition = -1;
-
+    private GridView gv;
+private List<String> plantsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Get the widgets reference from XML layout
-        final GridView gv = (GridView) findViewById(R.id.gv);
+        /*final GridView*/ gv = (GridView) findViewById(R.id.gv);
         //final TextView tv = (TextView) findViewById(R.id.tv);
 
         // Initializing a new String Array
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         // Populate a List from Array elements
-        final List<String> plantsList = new ArrayList<String>(Arrays.asList(plants));
+        /*final List<String> */plantsList = new ArrayList<String>(Arrays.asList(plants));
 
         //final ArrayAdapter<String> gridViewArrayAdapter = new ArrayAdapter<String>
         //       (this,android.R.layout.simple_list_item_1, plantsList);
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
+        //===================================buttons=========================================//
 
         Button button1 = findViewById(R.id.button1);
         Button button2 = findViewById(R.id.button2);
@@ -178,8 +179,17 @@ public class MainActivity extends AppCompatActivity {
         Button buttonResoudre = findViewById(R.id.button10);
         Button buttonClear = findViewById(R.id.button11);
 
-        //===================================buttons=========================================//
+        button1.setOnClickListener(this);
+        button2.setOnClickListener(this);
+        button3.setOnClickListener(this);
+        button4.setOnClickListener(this);
+        button5.setOnClickListener(this);
+        button6.setOnClickListener(this);
+        button7.setOnClickListener(this);
+        button8.setOnClickListener(this);
+        button9.setOnClickListener(this);
 
+/*
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -199,15 +209,9 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                // Add/insert item to ArrayAdapter
-                // Insert at the end of ArrayAdapter
 
-                // ArrayAdapter is zero based index
                 if(previousSelectedPosition != -1)
                     plantsList.set(previousSelectedPosition,"2");
-
-                // Update the GridView
-                //gridViewArrayAdapter.notifyDataSetChanged();
 
                 gv.invalidateViews();
             }
@@ -326,6 +330,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+*/
+
         //===================================buttons fin=========================================//
 
         buttonResoudre.setOnClickListener(new View.OnClickListener() {
@@ -403,4 +410,66 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId())
+        {
+            case R.id.button1:
+                if(previousSelectedPosition != -1)
+                    plantsList.set(previousSelectedPosition,"1");
+
+                gv.invalidateViews();
+                break;
+            case R.id.button2:
+                if(previousSelectedPosition != -1)
+                    plantsList.set(previousSelectedPosition,"2");
+                gv.invalidateViews();
+                break;
+            case R.id.button3:
+                if(previousSelectedPosition != -1)
+                    plantsList.set(previousSelectedPosition,"3");
+
+                gv.invalidateViews();
+                break;
+            case R.id.button4:
+                if(previousSelectedPosition != -1)
+                    plantsList.set(previousSelectedPosition,"4");
+
+                gv.invalidateViews();
+                break;
+            case R.id.button5:
+                if(previousSelectedPosition != -1)
+                    plantsList.set(previousSelectedPosition,"5");
+
+                gv.invalidateViews();
+                break;
+            case R.id.button6:
+                if(previousSelectedPosition != -1)
+                    plantsList.set(previousSelectedPosition,"6");
+
+                gv.invalidateViews();
+                break;
+            case R.id.button7:
+                if(previousSelectedPosition != -1)
+                    plantsList.set(previousSelectedPosition,"7");
+
+                gv.invalidateViews();
+                break;
+            case R.id.button8:
+                if(previousSelectedPosition != -1)
+                    plantsList.set(previousSelectedPosition,"8");
+
+                gv.invalidateViews();
+                break;
+            case R.id.button9:
+                if(previousSelectedPosition != -1)
+                    plantsList.set(previousSelectedPosition,"9");
+
+                gv.invalidateViews();
+                break;
+
+            default:
+                throw new RuntimeException("Unknow button ID");
+        }
+    }
 }

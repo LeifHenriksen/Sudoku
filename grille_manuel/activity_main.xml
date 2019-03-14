@@ -43,30 +43,36 @@
             android:id="@+id/button1"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="1" />
+            android:text="1"
+            android:onClick="numbers"
+            />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="2" />
+            android:text="2"
+            android:onClick="numbers"/>
 
         <Button
             android:id="@+id/button3"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:text="3" />
+            android:text="3"
+            android:onClick="numbers"/>
 
         <Button
             android:id="@+id/button4"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="4" />
+            android:text="4"
+            android:onClick="numbers"/>
         <Button
             android:id="@+id/button5"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="5" />
+            android:text="5"
+            android:onClick="numbers"/>
     </LinearLayout>
 
 
@@ -83,25 +89,29 @@
             android:id="@+id/button6"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="6" />
+            android:text="6"
+            android:onClick="numbers"/>
 
         <Button
             android:id="@+id/button7"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="7" />
+            android:text="7"
+            android:onClick="numbers"/>
 
         <Button
             android:id="@+id/button8"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="8"
+            android:onClick="numbers"
             />
         <Button
             android:id="@+id/button9"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="9"
+            android:onClick="numbers"
             />
     </LinearLayout>
 
@@ -117,7 +127,7 @@
         android:layout_height="wrap_content"
         android:text="Resoudre"
         android:layout_gravity="center"
-
+        android:onClick="onClick"
         />
 
     <Button
@@ -126,7 +136,7 @@
         android:layout_height="wrap_content"
         android:text="Clear"
         android:layout_gravity="center"
-
+        android:onClick="onClick"
         />
     </LinearLayout>
 
