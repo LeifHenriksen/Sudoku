@@ -1,4 +1,4 @@
-package com.example.lhenriksenla.myapplication;
+package com.example.sudokuv2;
 
 //l'algo ne marche pas si il y a une mauvais saisie, on doit faire une mesage de erreur
 public class Sudoku {
@@ -75,7 +75,6 @@ public class Sudoku {
 
 /*
     public static void main(String arg[]){
-
         int [][] grilleT=
                 {       {0,0,6,8,0,0,0,9,4},
                         {0,2,0,0,6,0,7,0,0},
@@ -86,9 +85,7 @@ public class Sudoku {
                         {4,0,2,6,0,3,0,0,5},
                         {0,0,0,0,1,0,0,0,3},
                         {8,0,9,0,0,0,1,2,0}};
-
         Sudoku test= new Sudoku(grilleT);
-
         //	estValide(test,0);
         test.affichage();
         test.estValide(grilleT,0);

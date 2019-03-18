@@ -1,4 +1,4 @@
-package com.example.lhenriksenla.myapplication;
+package com.example.sudokuv2;
 
 
 import android.app.Activity;
@@ -41,91 +41,48 @@ https://android--code.blogspot.com/2015/08/android-gridview-add-item.html
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private int previousSelectedPosition = -1;
+
     private GridView gv;
-private List<String> plantsList;
+    private GridView gv2;
+    private GridView gv3;
+
+    private Grille grilles;
+
+    private List<String> plantsList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Get the widgets reference from XML layout
-        /*final GridView*/ gv = (GridView) findViewById(R.id.gv);
-        //final TextView tv = (TextView) findViewById(R.id.tv);
+
+
+        gv = (GridView) findViewById(R.id.gv);
+        //gv2 = (GridView) findViewById(R.id.gv2);
+        //gv3 = (GridView) findViewById(R.id.gv3);
+
+        grilles = new Grille(findViewById(R.id.container));
+
 
         // Initializing a new String Array
         final String[] plants = new String[]{
                 "0","0","0","0","0","0","0","0","0",
+                /*"0","0","0","0","0","0","0","0","0",
                 "0","0","0","0","0","0","0","0","0",
                 "0","0","0","0","0","0","0","0","0",
                 "0","0","0","0","0","0","0","0","0",
                 "0","0","0","0","0","0","0","0","0",
                 "0","0","0","0","0","0","0","0","0",
                 "0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0"
+                "0","0","0","0","0","0","0","0","0"*/
         };
 
         // Populate a List from Array elements
-        /*final List<String> */plantsList = new ArrayList<String>(Arrays.asList(plants));
+        plantsList = new ArrayList<String>(Arrays.asList(plants));
 
-        //final ArrayAdapter<String> gridViewArrayAdapter = new ArrayAdapter<String>
-        //       (this,android.R.layout.simple_list_item_1, plantsList);
-
+        grilles.setAdapters(plantsList, this);
         // Data bind GridView with ArrayAdapter (String Array elements)
-        gv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, plantsList)
-        {
-            public View getView(int position, View convertView, ViewGroup parent) {
-
-                // Return the GridView current item as a View
-                View view = super.getView(position,convertView,parent);
-
-                // Convert the view as a TextView widget
-                TextView tv = (TextView) view;
-
-                //tv.setTextColor(Color.DKGRAY);
-
-                // Set the layout parameters for TextView widget
-                RelativeLayout.LayoutParams lp =  new RelativeLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
-                );
-                tv.setLayoutParams(lp);
-
-                // Get the TextView LayoutParams
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)tv.getLayoutParams();
-
-                // Set the width of TextView widget (item of GridView)
-                /*
-                    IMPORTANT
-                        Adjust the TextView widget width depending
-                        on GridView width and number of columns.
-
-                        GridView width / Number of columns = TextView width.
-
-                        Also calculate the GridView padding, margins, vertical spacing
-                        and horizontal spacing.
-                 */
-                //params.width = getPixelsFromDPs(MainActivity.this,168);
-
-                // Set the TextView layout parameters
-                tv.setLayoutParams(params);
-
-                // Display TextView text in center position
-                tv.setGravity(Gravity.CENTER);
-
-                // Set the TextView text font family and text size
-                //tv.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-                //tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
-                tv.setPadding(0,0,0,0);
-                // Set the TextView text (GridView item text)
-                tv.setText(plantsList.get(position));
-
-                // Set the TextView background color
-                tv.setBackgroundColor(Color.parseColor("white"));
-
-                // Return the TextView widget as GridView item
-                return tv;
-            }
-        });
 
 
 
@@ -189,192 +146,11 @@ private List<String> plantsList;
         button8.setOnClickListener(this);
         button9.setOnClickListener(this);
 
-/*
-        button1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // Add/insert item to ArrayAdapter
-                // Insert at the end of ArrayAdapter
-
-                // ArrayAdapter is zero based index
-                if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"1");
-
-                // Update the GridView
-                //gridViewArrayAdapter.notifyDataSetChanged();
-
-                gv.invalidateViews();
-            }
-        });
-        button2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-
-                if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"2");
-
-                gv.invalidateViews();
-            }
-        });
-        button3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // Add/insert item to ArrayAdapter
-                // Insert at the end of ArrayAdapter
-
-                // ArrayAdapter is zero based index
-                if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"3");
-
-                // Update the GridView
-                //gridViewArrayAdapter.notifyDataSetChanged();
-
-
-                gv.invalidateViews();
-            }
-        });
-        button4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // Add/insert item to ArrayAdapter
-                // Insert at the end of ArrayAdapter
-
-                // ArrayAdapter is zero based index
-                if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"4");
-
-                // Update the GridView
-                //gridViewArrayAdapter.notifyDataSetChanged();
-
-                gv.invalidateViews();
-            }
-        });
-        button5.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // Add/insert item to ArrayAdapter
-                // Insert at the end of ArrayAdapter
-
-                // ArrayAdapter is zero based index
-                if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"5");
-
-                // Update the GridView
-                //gridViewArrayAdapter.notifyDataSetChanged();
-
-                gv.invalidateViews();
-            }
-        });
-        button6.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // Add/insert item to ArrayAdapter
-                // Insert at the end of ArrayAdapter
-
-                // ArrayAdapter is zero based index
-                if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"6");
-
-                // Update the GridView
-                //gridViewArrayAdapter.notifyDataSetChanged();
-
-                gv.invalidateViews();
-            }
-        });
-        button7.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // Add/insert item to ArrayAdapter
-                // Insert at the end of ArrayAdapter
-
-                // ArrayAdapter is zero based index
-                if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"7");
-
-                // Update the GridView
-                //gridViewArrayAdapter.notifyDataSetChanged();
-
-                gv.invalidateViews();
-            }
-        });
-        button8.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // Add/insert item to ArrayAdapter
-                // Insert at the end of ArrayAdapter
-
-                // ArrayAdapter is zero based index
-                if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"8");
-
-                // Update the GridView
-                //gridViewArrayAdapter.notifyDataSetChanged();
-
-                gv.invalidateViews();
-            }
-        });
-        button9.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // Add/insert item to ArrayAdapter
-                // Insert at the end of ArrayAdapter
-
-                // ArrayAdapter is zero based index
-                if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"9");
-
-                // Update the GridView
-                //gridViewArrayAdapter.notifyDataSetChanged();
-
-                gv.invalidateViews();
-            }
-        });
-
-
-*/
 
         //===================================buttons fin=========================================//
+    }
 
-        buttonResoudre.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //===================================Resolution=============================================//
-                Toast toast = Toast.makeText(getApplicationContext(),"Resolution en marche", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-
-                Sudoku sudk = new Sudoku(listToArr(plantsList));
-                sudk.estValide(sudk.getGrille(), 0);
-                arrToList(sudk.getGrille()  ,plantsList);
-
-                gv.invalidateViews();
-
-
-                //===================================Fin Resolution=============================================//
-            }
-        });
-
-        buttonClear.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                int[][] tab = new int[9][9];
-
-                for(int i = 0; i<9 ; i++)
-                {
-                    for (int j = 0; j < 9; j++) {
-                        tab[i][j] = 0;
-                    }
-                }
-
-                arrToList(tab  ,plantsList);
-                gv.invalidateViews();
-
-            }
-        });
-
-
-
-        }
-
-        public void arrToList(int[][] tab, List<String> list){
+    public void arrToList(int[][] tab, List<String> list){
         int indiceList = 0;
         //List<String> list = new LinkedList<>();
 
@@ -389,16 +165,16 @@ private List<String> plantsList;
     }
 
     public int[][] listToArr(List<String> list){
-    int[][] tab = new int[9][9];
-    int indiceList = 0;
+        int[][] tab = new int[9][9];
+        int indiceList = 0;
 
-    for(int i = 0; i<9 ; i++)
-        for(int j = 0; j<9 ; j++)
-        {
-            tab[i][j] = Integer.parseInt(list.get(indiceList));
-            indiceList++;
-        }
-    return tab;
+        for(int i = 0; i<9 ; i++)
+            for(int j = 0; j<9 ; j++)
+            {
+                tab[i][j] = Integer.parseInt(list.get(indiceList));
+                indiceList++;
+            }
+        return tab;
     }
 
     // Method for converting DP value to pixels
@@ -466,6 +242,35 @@ private List<String> plantsList;
                     plantsList.set(previousSelectedPosition,"9");
 
                 gv.invalidateViews();
+                break;
+
+            case R.id.button11:
+                int[][] tab = new int[9][9];
+
+                for(int i = 0; i<9 ; i++)
+                {
+                    for (int j = 0; j < 9; j++) {
+                        tab[i][j] = 0;
+                    }
+                }
+
+                arrToList(tab  ,plantsList);
+                gv.invalidateViews();
+                break;
+            case R.id.button10:
+                //===================================Resolution=============================================//
+                Toast toast = Toast.makeText(getApplicationContext(),"Resolution en marche", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+
+                Sudoku sudk = new Sudoku(listToArr(plantsList));
+                sudk.estValide(sudk.getGrille(), 0);
+                arrToList(sudk.getGrille()  ,plantsList);
+
+                gv.invalidateViews();
+
+
+                //===================================Fin Resolution=============================================//
                 break;
 
             default:

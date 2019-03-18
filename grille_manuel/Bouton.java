@@ -1,4 +1,5 @@
-package com.example.lhenriksenla.myapplication;
+package com.example.sudokuv2;
+
 
 import android.view.View;
 import android.widget.GridView;
