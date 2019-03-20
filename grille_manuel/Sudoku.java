@@ -1,6 +1,10 @@
 //package com.example.sudokuv2;
 package com.example.lhenriksenla.myapplication;
 
+import android.util.Log;
+
+import java.util.List;
+
 //l'algo ne marche pas si il y a une mauvais saisie, on doit faire une mesage de erreur
 public class Sudoku {
 
@@ -21,11 +25,13 @@ public class Sudoku {
     }
 
     public void affichage(){
+
         for(int i=0;i<9;i++){
             for(int j=0;j<9;j++){
                 if(grille[i][j]!=0)
-                    System.out.print(grille[i][j]);
-                else System.out.print(' ');
+                    Log.i("tab", Integer.toString(grille[i][j]));
+                else
+                    Log.i("tab", " ");
             }
             System.out.println();
         }
@@ -71,7 +77,50 @@ public class Sudoku {
         grille[i][j]=0;
         return false;
     }
+   static public void arrToList(int[][] tab, List<String> list){
+        int indiceList = 0;
+        //List<String> list = new LinkedList<>();
 
+        for(int i = 0; i<9 ; i++)
+        {
+            for (int j = 0; j < 9; j++) {
+                if(tab[i][j] == 0)
+                    list.set(indiceList, "");
+                else
+                    list.set(indiceList, Integer.toString(tab[i][j]));
+
+                indiceList++;
+            }
+        }
+        //return list;
+    }
+
+    static public int[][] listToArr(List<String> list){
+
+        int[][] tab = new int[9][9];
+        int indiceList = 0;
+        String grille = "";
+        for(int i = 0; i<9 ; i++)
+        {
+            for (int j = 0; j < 9; j++) {
+                //tab[i][j] = Integer.parseInt(list.get(indiceList));
+                if (list.get(indiceList) == "") {
+                    tab[i][j] = 0;
+                    grille = grille + '0';
+                }
+                else {
+                    tab[i][j] = Integer.parseInt(list.get(indiceList));
+                    grille = grille + list.get(indiceList);
+                }
+                indiceList++;
+            }
+            grille = grille + '\n';
+
+        }
+        Log.d("mon tab", "\n" + grille);
+        Log.d("mon tab", Integer.toString(tab[0][8]));
+        return tab;
+    }
 
 
 /*

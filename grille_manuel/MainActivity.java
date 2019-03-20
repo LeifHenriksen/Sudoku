@@ -3,27 +3,18 @@ package com.example.lhenriksenla.myapplication;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
+import  java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 //botones de abajo que cambien los valores de la grid
 //pasar la grid como tab 9*9
@@ -39,6 +30,7 @@ https://android--code.blogspot.com/2015/08/android-gridview-add-item.html
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
     //changer a prive et faire un set get
     private int previousSelectedPosition = -1;
     private int previousSelectedGridView = -1;
@@ -46,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AdapterView.OnItemClickListener itemClickListener;
     private Grille grilles;
 
-    private List<String> plantsList;
+    private List<String> grilleAsList;
 
     void setPreviousSelectedPosition(int x){
         previousSelectedPosition = x;
@@ -80,24 +72,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // Initializing a new String Array
-        final String[] plants = new String[]{
-                "1","2","0","0","0","0","0","0","9",
-                "9","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","9"
+        String[] maGrille = new String[]{
+                "5","","","","","","","","3",
+                "","9","","","","8","","","",
+                "","","","","4","","","6","",
+                "8","","4","","","","9","5","",
+                "","","","","3","","4","1","",
+                "1","","","","","4","7","","",
+                "2","","","4","","5","","","",
+                "","","","","1","","","8","",
+                "","","8","2","","","","9",""
         };
 
         // Populate a List from Array elements
-        plantsList = new ArrayList<String>(Arrays.asList(plants));
+        grilleAsList = new ArrayList<String>(Arrays.asList(maGrille));
 
-        grilles.setAdapters(plantsList, this);
+        grilles.setAdapters(grilleAsList, this);
         // Data bind GridView with ArrayAdapter (String Array elements)
-
 
         itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
@@ -119,8 +110,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button button7 = findViewById(R.id.button7);
         Button button8 = findViewById(R.id.button8);
         Button button9 = findViewById(R.id.button9);
-        Button buttonResoudre = findViewById(R.id.button10);
-        Button buttonClear = findViewById(R.id.button11);
+        Button buttonVide = findViewById(R.id.button10);
+        Button buttonResoudre = findViewById(R.id.button11);
+        Button buttonClear = findViewById(R.id.button12);
 
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
@@ -136,32 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //===================================buttons fin=========================================//
     }
 
-    public void arrToList(int[][] tab, List<String> list){
-        int indiceList = 0;
-        //List<String> list = new LinkedList<>();
 
-        for(int i = 0; i<9 ; i++)
-        {
-            for (int j = 0; j < 9; j++) {
-                list.set(indiceList, Integer.toString(tab[i][j]));
-                indiceList++;
-            }
-        }
-        //return list;
-    }
-
-    public int[][] listToArr(List<String> list){
-        int[][] tab = new int[9][9];
-        int indiceList = 0;
-
-        for(int i = 0; i<9 ; i++)
-            for(int j = 0; j<9 ; j++)
-            {
-                tab[i][j] = Integer.parseInt(list.get(indiceList));
-                indiceList++;
-            }
-        return tab;
-    }
 
     // Method for converting DP value to pixels
     public static int getPixelsFromDPs(Activity activity, int dps){
@@ -178,70 +145,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.button1:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"1");
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"1");
 
-                grilles.refreshNumbers(plantsList);
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
                 break;
             case R.id.button2:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"2");
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"2");
 
-                grilles.refreshNumbers(plantsList);
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
                 break;
             case R.id.button3:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"3");
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"3");
 
-                grilles.refreshNumbers(plantsList);
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
                 break;
             case R.id.button4:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"4");
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"4");
 
-                grilles.refreshNumbers(plantsList);
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
                 break;
             case R.id.button5:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"5");
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"5");
 
-                grilles.refreshNumbers(plantsList);
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
                 break;
             case R.id.button6:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"6");
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"6");
 
-                grilles.refreshNumbers(plantsList);
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
                 break;
             case R.id.button7:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"7");
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"7");
 
-                grilles.refreshNumbers(plantsList);
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
                 break;
             case R.id.button8:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"8");
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"8");
 
 
-                grilles.refreshNumbers(plantsList);
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
                 break;
             case R.id.button9:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"9");
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"9");
 
-                grilles.refreshNumbers(plantsList);
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
                 break;
 
-            case R.id.button11:
+            case R.id.button10:
+                if(previousSelectedPosition != -1)
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"");
+
+                grilles.refreshNumbers(grilleAsList);
+                grilles.invalidateViews();
+                break;
+
+            case R.id.button12:
                 int[][] tab = new int[9][9];
 
                 for(int i = 0; i<9 ; i++)
@@ -251,22 +226,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
 
-                arrToList(tab  ,plantsList);
+                Sudoku.arrToList(tab  , grilleAsList);
 
-                grilles.refreshNumbers(plantsList);
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
                 break;
-            case R.id.button10:
+            case R.id.button11:
                 //===================================Resolution=============================================//
                 Toast toast = Toast.makeText(getApplicationContext(),"Resolution en marche", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
 
-                Sudoku sudk = new Sudoku(listToArr(plantsList));
-                sudk.estValide(sudk.getGrille(), 0);
-                arrToList(sudk.getGrille()  ,plantsList);
+                int millis = Calendar.getInstance().get(Calendar.MILLISECOND);
 
-                grilles.refreshNumbers(plantsList);
+                Sudoku sudk = new Sudoku(Sudoku.listToArr(grilleAsList));
+                //int sec = Calendar.getInstance().get(Calendar.SECOND);
+                sudk.estValide(sudk.getGrille(), 0);
+                Sudoku.arrToList(sudk.getGrille()  , grilleAsList);
+
+                toast = Toast.makeText(getApplicationContext(),"Temps de resolution milliseconds = " + (Calendar.getInstance().get(Calendar.MILLISECOND) - millis), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+
+                grilles.refreshNumbers(grilleAsList);
                 grilles.invalidateViews();
 
 
@@ -277,6 +259,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 throw new RuntimeException("Unknow button ID");
         }
 
-        //grilles.copyFromTo(plantsList);
+        //grilles.copyFromTo(grilleAsList);
     }
 }

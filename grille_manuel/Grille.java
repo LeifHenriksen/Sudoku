@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Grille {
     private GridView gv8;
     private GridView gv9;
     private List<List<String>> numbers;
+    private int[][] positionGrille;
     //private int x;
     //private int y;
 
@@ -41,26 +43,61 @@ public class Grille {
         gv9 = (GridView) view.findViewById(R.id.gv9);
 
         numbers = new ArrayList<List<String>>(0);
-       for(int i = 0 ; i<9 ; i++)
+        for(int i = 0 ; i<9 ; i++)
             numbers.add(new ArrayList<String>(0));
+
+        positionGrille = new int[9][9];
+        int x = 0;
+        int y = 0;
+
+        for (int i = 0; i<9 ; i = i+3) {
+
+            for (int e = 0; e < 3; e++) {
+                for (int k = i; k < (i + 3); k++) {
+                    for (int j = x; j < (x + 3); j++) {
+                        positionGrille[k][j] = y;
+                        y++;
+                    }
+
+                }
+                x = x + 3;
+            }
+                x=0;
+        }
+
+    }
+
+    int getPositionGrille(int x , int y){
+        return positionGrille[x][y];
     }
 
     void copyFromTo(List<String> list){
 
         int x = 0;
+        //9 lignes
+        for (int i = 0; i<9 ; i += 3) {
 
-        for (int i = 0; i<9 ; i++) {
+            //3 lignes
+            for(int e = 0 ; e<3 ; e++)
+                //une lignes
+                for(int k = i ; k<(i+3) ; k++) {
+                    for (int j = x; j < (x + 3); j++) {
+                        numbers.get(k).add(list.get(j));
+                    }
+                    x = x + 3;
+                }
 
+/*
             for (int j = x; j<(x+9) ; j++)
             {
                 numbers.get(i).add(list.get(j));
-                Log.d("valeur j", "la valeur de j est : " + j);
-                Log.d("valeur j", "la valeur de numbers i at j est : " + numbers.get(i).get(j%9) + " " + j + " i = " + i);
+               // Log.d("valeur j", "la valeur de j est : " + j);
+               // Log.d("valeur j", "la valeur de numbers i at j est : " + numbers.get(i).get(j%9) + " " + j + " i = " + i);
             }
 
             x = x + 9;
-            Log.d("valeur i", "la valeur de i est : " + i);
-            Log.d("valeur x", "la valeur de x est : " + x);
+           // Log.d("valeur i", "la valeur de i est : " + i);
+           // Log.d("valeur x", "la valeur de x est : " + x);*/
         }
 
 
@@ -74,10 +111,10 @@ public class Grille {
         this.copyFromTo(list);
     }
 
-    void setAdapters(List<String> pl , MainActivity activity){
+    void setAdapters(List<String> list , MainActivity activity){
 
 
-        this.copyFromTo(pl);
+        this.copyFromTo(list);
 
         gv.setAdapter(new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, numbers.get(0))
         {
