@@ -1,4 +1,4 @@
-package com.example.sudokuv2;
+package com.example.lhenriksenla.myapplication;
 
 
 import android.app.Activity;
@@ -38,44 +38,58 @@ https://android--code.blogspot.com/2015/08/android-gridview-add-item.html
  */
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    //changer a prive et faire un set get
     private int previousSelectedPosition = -1;
+    private int previousSelectedGridView = -1;
 
-    private GridView gv;
-    private GridView gv2;
-    private GridView gv3;
-
+    private AdapterView.OnItemClickListener itemClickListener;
     private Grille grilles;
 
     private List<String> plantsList;
 
+    void setPreviousSelectedPosition(int x){
+        previousSelectedPosition = x;
+    }
+
+    int getPreviousSelectedPosition(){
+        return previousSelectedPosition;
+    }
+
+    void setPreviousSelectedGridView(int x){
+        previousSelectedGridView = x;
+    }
+
+    int getPreviousSelectedGridView(){
+        return previousSelectedGridView;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         // Get the widgets reference from XML layout
+        final MainActivity activity = this;
 
 
-        gv = (GridView) findViewById(R.id.gv);
-        //gv2 = (GridView) findViewById(R.id.gv2);
-        //gv3 = (GridView) findViewById(R.id.gv3);
 
         grilles = new Grille(findViewById(R.id.container));
 
 
         // Initializing a new String Array
         final String[] plants = new String[]{
-                "0","0","0","0","0","0","0","0","0",
-                /*"0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0",
+                "1","2","0","0","0","0","0","0","9",
+                "9","0","0","0","0","0","0","0","0",
                 "0","0","0","0","0","0","0","0","0",
                 "0","0","0","0","0","0","0","0","0",
                 "0","0","0","0","0","0","0","0","0",
                 "0","0","0","0","0","0","0","0","0",
-                "0","0","0","0","0","0","0","0","0"*/
+                "0","0","0","0","0","0","0","0","0",
+                "0","0","0","0","0","0","0","0","0",
+                "0","0","0","0","0","0","0","0","9"
         };
 
         // Populate a List from Array elements
@@ -85,42 +99,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Data bind GridView with ArrayAdapter (String Array elements)
 
 
-
-        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the GridView selected/clicked item text
-                String selectedItem = parent.getItemAtPosition(position).toString();
-
-                //prendre la cellule actuelle
-                TextView tv2 = (TextView) view;
-
-                tv2.setBackgroundColor(Color.parseColor("#FF9AD082"));
-
-                // Display the selected/clicked item text and position on TextView
-                //tv.setText("GridView item clicked : " +selectedItem + "\nAt index position : " + position);
-
-                TextView previousSelectedView = (TextView) gv.getChildAt(previousSelectedPosition);
-
-                // If there is a previous selected view exists
-                if(position != previousSelectedPosition) {
-                    if (previousSelectedPosition != -1) {
-                        // Set the last selected View to deselect
-                        previousSelectedView.setSelected(false);
-
-                        // Set the last selected View background color as deselected item
-                        previousSelectedView.setBackgroundColor(Color.parseColor("white"));
-
-                        // Set the last selected View text color as deselected item
-                        previousSelectedView.setTextColor(Color.DKGRAY);
-                    }
-
-                    // Set the current selected view position as previousSelectedPosition
-                    previousSelectedPosition = position;
-                }
+                grilles.click(parent, view, position, id, activity);
             }
-        });
+        };
 
+        grilles.setClickListeners(itemClickListener);
 
         //===================================buttons=========================================//
 
@@ -192,56 +178,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.button1:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"1");
+                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"1");
 
-                gv.invalidateViews();
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
                 break;
             case R.id.button2:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"2");
-                gv.invalidateViews();
+                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"2");
+
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
                 break;
             case R.id.button3:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"3");
+                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"3");
 
-                gv.invalidateViews();
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
                 break;
             case R.id.button4:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"4");
+                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"4");
 
-                gv.invalidateViews();
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
                 break;
             case R.id.button5:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"5");
+                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"5");
 
-                gv.invalidateViews();
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
                 break;
             case R.id.button6:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"6");
+                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"6");
 
-                gv.invalidateViews();
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
                 break;
             case R.id.button7:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"7");
+                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"7");
 
-                gv.invalidateViews();
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
                 break;
             case R.id.button8:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"8");
+                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"8");
 
-                gv.invalidateViews();
+
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
                 break;
             case R.id.button9:
                 if(previousSelectedPosition != -1)
-                    plantsList.set(previousSelectedPosition,"9");
+                    plantsList.set(previousSelectedPosition+((previousSelectedGridView-1)*9),"9");
 
-                gv.invalidateViews();
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
                 break;
 
             case R.id.button11:
@@ -255,7 +252,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 arrToList(tab  ,plantsList);
-                gv.invalidateViews();
+
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
                 break;
             case R.id.button10:
                 //===================================Resolution=============================================//
@@ -267,7 +266,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 sudk.estValide(sudk.getGrille(), 0);
                 arrToList(sudk.getGrille()  ,plantsList);
 
-                gv.invalidateViews();
+                grilles.refreshNumbers(plantsList);
+                grilles.invalidateViews();
 
 
                 //===================================Fin Resolution=============================================//
@@ -276,5 +276,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 throw new RuntimeException("Unknow button ID");
         }
+
+        //grilles.copyFromTo(plantsList);
     }
 }

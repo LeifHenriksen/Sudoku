@@ -1,4 +1,5 @@
-package com.example.sudokuv2;
+//package com.example.sudokuv2;
+package com.example.lhenriksenla.myapplication;
 
 //l'algo ne marche pas si il y a une mauvais saisie, on doit faire une mesage de erreur
 public class Sudoku {
