@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">Sudoku</string>
-    <string name="button_manuel">Manuel</string>
-    <string name="button_photo">Photo</string>
-    <string name="_jouer">Jouer</string>
-    <string name="preference">pref</string>
-</resources>
