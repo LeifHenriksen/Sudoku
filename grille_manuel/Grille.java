@@ -681,7 +681,7 @@ public class Grille {
     }
 
     void click(AdapterView<?> parent, View view, int position, long id, MainActivity activity){
-
+        Log.d("Previous GRID", "Previous = "+activity.getPreviousSelectedGridView());
         switch(parent.getId()) {
 
             case R.id.gv: {
@@ -692,7 +692,7 @@ public class Grille {
                     getGv(activity.getPreviousSelectedGridView()).invalidateViews();
 
                 //GridView previouGV = getGv(activity.getPreviousSelectedGridView());
-
+                activity.setPreviousSelectedGridView(1);
 
                 // Get the GridView selected/clicked item text
                 String selectedItem = parent.getItemAtPosition(position).toString();
