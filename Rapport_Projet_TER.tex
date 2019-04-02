@@ -1,0 +1,166 @@
+\documentclass[8pt, french]{article}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, linkcolor=black]{hyperref}
+\usepackage[french]{babel}
+\selectlanguage{french}
+\usepackage[utf8]{inputenc}
+\usepackage[svgnames]{xcolor}
+
+
+
+\usepackage{listings}
+\usepackage{afterpage}
+\pagestyle{plain}
+
+
+\lstset{frame=tb,
+language=R,
+aboveskip=3mm,
+belowskip=3mm,
+showstringspaces=false,
+columns=flexible,
+numbers=none,
+breaklines=true,
+breakatwhitespace=true,
+tabsize=3
+}
+
+\usepackage{here}
+
+
+\textheight=21cm
+\textwidth=17cm
+%\topmargin=-1cm
+\oddsidemargin=0cm
+\parindent=0mm
+\pagestyle{plain}
+
+
+
+\usepackage{color}
+\usepackage{ragged2e}
+
+\global\let\date\relax
+\newcounter{unomenos}
+\setcounter{unomenos}{\number\year}
+\addtocounter{unomenos}{-1}
+\stepcounter{unomenos}
+\gdef\@date{ Course \arabic{unomenos}/ 2019}
+
+\begin{document}
+
+\begin{titlepage}
+
+\begin{center}
+\vspace*{-1in}
+\begin{figure}[htb]
+\begin{center}
+%\includegraphics[width=8cm]{logo}%
+\end{center}
+\end{figure}
+
+FACULTE DES SCIENCES - Année 2018-2019\\
+\vspace*{0.15in}
+DEPARTEMENT INFORMATIQUE \\
+\vspace*{0.4in}
+\begin{large}
+Rapport de projet TER \\
+Projet Informatique HLIN405\\
+\end{large}
+\vspace*{0.2in}
+\begin{Large}
+\textbf{Projet Sudoku en Réalité Augmentée} \\
+\end{Large}
+\vspace*{0.3in}
+\begin{large}
+Encadrant:
+ \\
+\end{large}
+\vspace*{0.3in}
+\rule{80mm}{0.1mm}\\
+\vspace*{0.1in}
+\begin{large}
+Etudiants: \\
+Simione Jérémy, Henriksen Leif \\
+ 
+\end{large}
+\end{center}
+\end{titlepage}
+
+\newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}}
+\def\CC{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}}
+
+\tableofcontents
+\newpage
+\section{Organisation du projet}
+\subsection{Organisation du travail}
+Pour le développement de notre application Sudoku , nous avons décidé de travailler chacun de notre côté et de temps en temps ensemble suivant la difficulté des choses à réaliser.Pour que le projet nous apporte a tous des connaissances dans les différents domaines auquel il touche nous avons essayé de repartir les taches de sorte a ce que chaque membre du groupe ai vu chaque domaine (android,java,openCV).\\\\
+Afin d’être le plus efficace et d’avancer le plus rapidement possible nous nous sommes réunis
+quotidiennement. Durant les jours de la semaine, nous nous sommes vus souvent afin de connaitre l'avancée de chacun dans le projet,faire le point sur l’avancement du projet, définir de nouveaux objectifs et de les réaliser.\\\\
+A chaque étape réalisée nous avons postés sur un depot Github créé pour le projet chaque nouvelle partie afin que tout chaque memebre puisse s'informer et voir.
+A chaque étape importante nous nous sommes réunis avec notre encadrant M afin de faire le point sur l’état d’avancement de l’application.\\\\
+
+\subsection{Repartition du travail dans le temps}
+
+Nous avons découpé cette période de travail en plusieurs phases.
+
+1. Préparation du projet. Nous avons réalisé le cahier des charges de l’application, choisi les
+outils de travail et les principales technologies utilisées. Nous avons fait une première version
+du diagramme de répartition des tâches dans le temps, et une première modélisation de
+l’architecture de l’application.\\\\
+2. Développement du projet. Nous avons implanté les fonctionnalités de l’application en
+raffinant la modélisation au fur et à mesure. Pour chaque module implanté, nous nous sommes
+efforcés d’écrire des tests afin de s’assurer de leur bon fonctionnement.\\\\
+3. Finalisation du projet. Cette phase a consisté en la correction de bogues afin d’obtenir une
+version suffisamment stable pour pouvoir être présentée en vue de la soutenance et du rendu
+du projet T.E.R. \\
+
+\subsection{Outils de travail collaboratif }
+Nous avons choisi d’utiliser Github qui  permet la gestion des versions du projet et facilite la collaboration a distance.\\\\
+Enfin, pour éditer le code du projet , nous nous sommes servis d'Android Studio.\\\\
+Il etait en effet plus facile de commencer sur cet éditeur car il ne fonctionne pas de la meme facon que les autres éditeurs et notre code source final passe obligatoirement par cet IDE.
+
+\newpage
+\section{Conception du Sudoku}
+La partie conception était toute nouvelle pour nous car il s'agit de créer une application Android.
+Nous avons donc divisé le projet en plusieurs parties a savoir:\\\\
+Premierement une classe Sudoku qui va représenter notre grille de sudoku mais aussi toutes les methodes qui vont nous permettre de recuperer la grille ainsi que l'algorithme de resolution d'une grille (Solveur).\\\\
+
+Deuxiemement il s'agissait de faire une partie qui se charger de recuperer les donnes de la classe Sudoku et qui allait l'afficher dans une application android c'est a dire réaliser l'affichage graphique de notre classe sudoku en passant par une application android.\\\\
+Il fallait ensuite pour le projet pouvoir prendre une image en photo afin de pouvoir la faire lire ensuite par une intelligence artificielle cappable de lire des nombre sa partir d'une image.\\
+Cette partie consistait encore a developper une interface android avec des boutons et un acces a la camera du smartphone de l'utilisateur et pouvoir l'neregistrer dans une galerie de photos afinb de pouvoir retouver le chemin de l'image.\\\\
+
+Ensuite nous avions besoin d'une partie qui nous permettrait de lire l'image ainsi enregistrée a savoir l'intelligence artificielle.
+Cette partie a été de loin la plus dure et la plus longue car il s'agissait d'appliquer des traitements a l'image en fonction afin de faciliter la lecture par l'IA.
+
+
+
+
+\subsection{La classe Sudoku}
+\subsection{L'interface graphique de l'application}
+\subsection{La partie camera}
+\subsection{Classe de traitement et de lecture de l'image }
+\subsection{Réunion de toutes les partie en seul executable}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
