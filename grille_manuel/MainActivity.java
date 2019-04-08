@@ -2,9 +2,11 @@
 package com.example.sudokuv2;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -41,8 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //le string a utiliser pour le jeu
     private List<String> grilleAsList;
-
     private List<String>  grilleResolu;
+
+
     void setPreviousSelectedPosition(int x){
         previousSelectedPosition = x;
     }
@@ -63,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
 //=================================Le string a modifier====================================//
@@ -92,8 +94,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cases = new Cases();
 
         // Populate a List from Array elements
-        grilleAsList = new ArrayList<String>(Arrays.asList(maGrille));
-        grilleResolu = new ArrayList<String>(Arrays.asList(maGrille));
+        if(Saver.savePresent(this) == null) {
+            grilleAsList = new ArrayList<String>(Arrays.asList(maGrille));
+            grilleResolu = new ArrayList<String>(Arrays.asList(maGrille));
+        }
+        else
+        {
+            grilleAsList = new ArrayList<String>();
+            grilleResolu = new ArrayList<String>();
+            Saver.load(grilleAsList,grilleResolu,this);
+        }
 
         grilles.setAdapters(grilleAsList, this);
         // Data bind GridView with ArrayAdapter (String Array elements)
@@ -102,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sudk.estValide(sudk.getGrille(), 0);
         Sudoku.arrToList(sudk.getGrille()  , grilleResolu);
 
-        cases.initModifiable(grilleAsList, grilleResolu);
+        cases.initJeu(grilleAsList, grilleResolu);
         grilles.setCases(cases);
 
 
@@ -145,9 +155,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //===================================buttons fin=========================================//
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        Saver.save(grilleAsList, this);
+    }
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        Saver.save(grilleAsList, this);
+    }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Saver.save(grilleAsList, this);
+    }
     // Method for converting DP value to pixels
+
     public static int getPixelsFromDPs(Activity activity, int dps){
         Resources r = activity.getResources();
         int  px = (int) (TypedValue.applyDimension(
@@ -158,100 +186,173 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        int posGrille = 0;
+        if(previousSelectedPosition != -1)
+            posGrille = grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition);
+
         switch(v.getId())
         {
             //avec previousSelectedGridView toujours mettre -1;
             case R.id.button1:
-                if(previousSelectedPosition != -1)
-                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"1");
+                if(previousSelectedPosition != -1 && Sudoku.positionValide(Sudoku.listToArr(grilleAsList), 1, grilles.getPoints(posGrille).x, grilles.getPoints(posGrille).y))
+                {
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "1");
+                    cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("1");
+                    //example de couleur
+                    //cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setCouleur(2);
 
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Numero NON valide", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
                 grilles.refreshNumbers(grilleAsList);
-                //example de couleur
-                //cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setCouleur(2);
-
-                cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("1");
-
                 grilles.invalidateViews();
                 break;
             case R.id.button2:
-                if(previousSelectedPosition != -1)
-                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"2");
+                if(previousSelectedPosition != -1 && Sudoku.positionValide(Sudoku.listToArr(grilleAsList), 2, grilles.getPoints(posGrille).x, grilles.getPoints(posGrille).y))
+                {
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "2");
+                    cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("2");
+                    //example de couleur
+                    //cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setCouleur(2);
 
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Numero NON valide", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
                 grilles.refreshNumbers(grilleAsList);
-
-                cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("2");
-
                 grilles.invalidateViews();
                 break;
             case R.id.button3:
-                if(previousSelectedPosition != -1)
-                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"3");
+                if(previousSelectedPosition != -1 && Sudoku.positionValide(Sudoku.listToArr(grilleAsList), 3, grilles.getPoints(posGrille).x, grilles.getPoints(posGrille).y))
+                {
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "3");
+                    cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("3");
+                    //example de couleur
+                    //cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setCouleur(2);
 
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Numero NON valide", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
                 grilles.refreshNumbers(grilleAsList);
-
-                cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("3");
-
                 grilles.invalidateViews();
                 break;
             case R.id.button4:
-                if(previousSelectedPosition != -1)
-                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"4");
+                if(previousSelectedPosition != -1 && Sudoku.positionValide(Sudoku.listToArr(grilleAsList), 4, grilles.getPoints(posGrille).x, grilles.getPoints(posGrille).y))
+                {
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "4");
+                    cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("4");
+                    //example de couleur
+                    //cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setCouleur(2);
 
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Numero NON valide", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
                 grilles.refreshNumbers(grilleAsList);
-
-                cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("4");
-
                 grilles.invalidateViews();
                 break;
             case R.id.button5:
-                if(previousSelectedPosition != -1)
-                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"5");
+                if(previousSelectedPosition != -1 && Sudoku.positionValide(Sudoku.listToArr(grilleAsList), 5, grilles.getPoints(posGrille).x, grilles.getPoints(posGrille).y))
+                {
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "5");
+                    cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("5");
+                    //example de couleur
+                    //cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setCouleur(2);
 
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Numero NON valide", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
                 grilles.refreshNumbers(grilleAsList);
-
-                cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("5");
-
                 grilles.invalidateViews();
                 break;
             case R.id.button6:
-                if(previousSelectedPosition != -1)
-                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"6");
+                if(previousSelectedPosition != -1 && Sudoku.positionValide(Sudoku.listToArr(grilleAsList), 6, grilles.getPoints(posGrille).x, grilles.getPoints(posGrille).y))
+                {
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "6");
+                    cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("6");
+                    //example de couleur
+                    //cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setCouleur(2);
 
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Numero NON valide", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
                 grilles.refreshNumbers(grilleAsList);
-
-                cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("6");
-
                 grilles.invalidateViews();
                 break;
             case R.id.button7:
-                if(previousSelectedPosition != -1)
-                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"7");
+                if(previousSelectedPosition != -1 && Sudoku.positionValide(Sudoku.listToArr(grilleAsList), 7, grilles.getPoints(posGrille).x, grilles.getPoints(posGrille).y))
+                {
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "7");
+                    cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("7");
+                    //example de couleur
+                    //cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setCouleur(2);
 
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Numero NON valide", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
                 grilles.refreshNumbers(grilleAsList);
-
-                cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("7");
-
                 grilles.invalidateViews();
                 break;
             case R.id.button8:
-                if(previousSelectedPosition != -1)
-                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"8");
+                if(previousSelectedPosition != -1 && Sudoku.positionValide(Sudoku.listToArr(grilleAsList), 8, grilles.getPoints(posGrille).x, grilles.getPoints(posGrille).y))
+                {
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "8");
+                    cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("8");
+                    //example de couleur
+                    //cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setCouleur(2);
 
-
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Numero NON valide", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
                 grilles.refreshNumbers(grilleAsList);
-
-                cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("8");
-
                 grilles.invalidateViews();
                 break;
             case R.id.button9:
-                if(previousSelectedPosition != -1)
-                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView-1,previousSelectedPosition),"9");
+                if(previousSelectedPosition != -1 && Sudoku.positionValide(Sudoku.listToArr(grilleAsList), 9, grilles.getPoints(posGrille).x, grilles.getPoints(posGrille).y))
+                {
+                    grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "9");
+                    cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("9");
+                    //example de couleur
+                    //cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setCouleur(2);
 
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Numero NON valide", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
                 grilles.refreshNumbers(grilleAsList);
-
-                cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("9");
-
                 grilles.invalidateViews();
                 break;
 
@@ -300,7 +401,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //on doit changer grilleresolu car c'est possible qje la resolution a change
                 //si on modifie pas on peut enlever et simplement faire cases.montrerReponse()
                 Sudoku.arrToList(sudk.getGrille()  , grilleResolu);
-
                 Sudoku.arrToList(sudk.getGrille()  , grilleAsList);
 
                 toast = Toast.makeText(getApplicationContext(),"Temps de resolution milliseconds = " + (Calendar.getInstance().get(Calendar.MILLISECOND) - millis), Toast.LENGTH_LONG);
@@ -311,6 +411,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 grilles.refreshNumbers(grilleAsList);
 
+                for(int i = 0; i<81; i++)
+                    Log.i("grille resolu", grilleResolu.get(i));
                 //update cases
                 cases = new Cases();
                 cases.initModifiable(grilleAsList,grilleResolu);

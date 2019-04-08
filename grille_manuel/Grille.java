@@ -30,6 +30,7 @@ public class Grille {
     private Cases cases;
     private List<List<String>> numbers;
     private int[][] positionGrille;
+    private List<Point> points;
 
 
     Grille(View view){
@@ -47,7 +48,7 @@ public class Grille {
         for(int i = 0 ; i<9 ; i++)
             numbers.add(new ArrayList<String>(0));
 
-        //you give it a gridview and a position in that gridview, and it gives the position in the 9*9 grid
+        //you give it a gridview and a position in that gridview, and it gives the position in the list of the 9*9
         positionGrille = new int[9][9];
         int x = 0;
         int y = 0;
@@ -67,10 +68,20 @@ public class Grille {
                 x=0;
         }
 
+        points = new ArrayList<Point>();
+        //tu donnes un valeur de 0-80 et te donne la pos x et y
+        for (int i = 0; i<9; i++)
+            for (int j = 0; j<9; j++)
+                 points.add(new Point(i , j));
+
     }
 
     void setCases(Cases cases){
         this.cases = cases;
+    }
+
+    Point getPoints(int pos){
+        return points.get(pos);
     }
 
     int getPositionGrille(int x , int y){
@@ -174,13 +185,17 @@ public class Grille {
                 // Set the TextView text (GridView item text)
                 //tv.setText(numbers.get(0).get(position));
                 tv.setText(cases.getCaseAt(0,position).getValeur());
-                Log.i("position", Integer.toString(position));
+               // Log.i("position", Integer.toString(position));
                 // Set the TextView background color
 
-                if(cases.getCaseAt(0,position).getCouleur() == 0)
+                if(cases.getCaseAt(0,position).getCouleur() == 0) {
+                    tv.setTextColor(Color.parseColor("black"));
                     tv.setBackgroundColor(Color.parseColor("white"));
-                else if(cases.getCaseAt(0,position).getCouleur() == 1)
+                }
+                else if(cases.getCaseAt(0,position).getCouleur() == 1) {
                     tv.setBackgroundColor(Color.parseColor("blue"));
+                    tv.setTextColor(Color.parseColor("white"));
+                }
                 else
                     tv.setBackgroundColor(Color.parseColor("red"));
                 //tv.setBackgroundColor(Color.parseColor("#FF9AD082"));
@@ -237,13 +252,18 @@ public class Grille {
                 tv.setPadding(0,0,0,0);
 
                 tv.setText(cases.getCaseAt(1,position).getValeur());
-                Log.i("position", Integer.toString(position));
+              //  Log.i("position", Integer.toString(position));
                 // Set the TextView background color
 
                 if(cases.getCaseAt(1,position).getCouleur() == 0)
+                {
+                    tv.setTextColor(Color.parseColor("black"));
                     tv.setBackgroundColor(Color.parseColor("white"));
-                else if(cases.getCaseAt(1,position).getCouleur() == 1)
+                }
+                else if(cases.getCaseAt(1,position).getCouleur() == 1) {
                     tv.setBackgroundColor(Color.parseColor("blue"));
+                    tv.setTextColor(Color.parseColor("white"));
+                }
                 else
                     tv.setBackgroundColor(Color.parseColor("red"));
                 // Return the TextView widget as GridView item
@@ -298,13 +318,18 @@ public class Grille {
                 tv.setPadding(0,0,0,0);
 
                 tv.setText(cases.getCaseAt(2,position).getValeur());
-                Log.i("position", Integer.toString(position));
+               // Log.i("position", Integer.toString(position));
                 // Set the TextView background color
 
                 if(cases.getCaseAt(2,position).getCouleur() == 0)
+                {
+                    tv.setTextColor(Color.parseColor("black"));
                     tv.setBackgroundColor(Color.parseColor("white"));
-                else if(cases.getCaseAt(2,position).getCouleur() == 1)
+                }
+                else if(cases.getCaseAt(2,position).getCouleur() == 1) {
                     tv.setBackgroundColor(Color.parseColor("blue"));
+                    tv.setTextColor(Color.parseColor("white"));
+                }
                 else
                     tv.setBackgroundColor(Color.parseColor("red"));
                 // Return the TextView widget as GridView item
@@ -359,13 +384,17 @@ public class Grille {
                 tv.setPadding(0,0,0,0);
 
                 tv.setText(cases.getCaseAt(3,position).getValeur());
-                Log.i("position", Integer.toString(position));
+                //Log.i("position", Integer.toString(position));
                 // Set the TextView background color
 
-                if(cases.getCaseAt(3,position).getCouleur() == 0)
+                if(cases.getCaseAt(3,position).getCouleur() == 0){
+                    tv.setTextColor(Color.parseColor("black"));
                     tv.setBackgroundColor(Color.parseColor("white"));
-                else if(cases.getCaseAt(3,position).getCouleur() == 1)
+                }
+                else if(cases.getCaseAt(3,position).getCouleur() == 1) {
                     tv.setBackgroundColor(Color.parseColor("blue"));
+                    tv.setTextColor(Color.parseColor("white"));
+                }
                 else
                     tv.setBackgroundColor(Color.parseColor("red"));
                 // Return the TextView widget as GridView item
@@ -420,13 +449,18 @@ public class Grille {
                 tv.setPadding(0,0,0,0);
 
                 tv.setText(cases.getCaseAt(4,position).getValeur());
-                Log.i("position", Integer.toString(position));
+                //Log.i("position", Integer.toString(position));
                 // Set the TextView background color
 
                 if(cases.getCaseAt(4,position).getCouleur() == 0)
+                {
+                    tv.setTextColor(Color.parseColor("black"));
                     tv.setBackgroundColor(Color.parseColor("white"));
-                else if(cases.getCaseAt(4,position).getCouleur() == 1)
+                }
+                else if(cases.getCaseAt(4,position).getCouleur() == 1) {
                     tv.setBackgroundColor(Color.parseColor("blue"));
+                    tv.setTextColor(Color.parseColor("white"));
+                }
                 else
                     tv.setBackgroundColor(Color.parseColor("red"));
                 // Return the TextView widget as GridView item
@@ -481,13 +515,18 @@ public class Grille {
                 tv.setPadding(0,0,0,0);
 
                 tv.setText(cases.getCaseAt(5,position).getValeur());
-                Log.i("position", Integer.toString(position));
+                //Log.i("position", Integer.toString(position));
                 // Set the TextView background color
 
                 if(cases.getCaseAt(5,position).getCouleur() == 0)
+                {
+                    tv.setTextColor(Color.parseColor("black"));
                     tv.setBackgroundColor(Color.parseColor("white"));
-                else if(cases.getCaseAt(5,position).getCouleur() == 1)
+                }
+                else if(cases.getCaseAt(5,position).getCouleur() == 1) {
                     tv.setBackgroundColor(Color.parseColor("blue"));
+                    tv.setTextColor(Color.parseColor("white"));
+                }
                 else
                     tv.setBackgroundColor(Color.parseColor("red"));
                 // Return the TextView widget as GridView item
@@ -542,13 +581,18 @@ public class Grille {
                 tv.setPadding(0,0,0,0);
 
                 tv.setText(cases.getCaseAt(6,position).getValeur());
-                Log.i("position", Integer.toString(position));
+                //Log.i("position", Integer.toString(position));
                 // Set the TextView background color
 
                 if(cases.getCaseAt(6,position).getCouleur() == 0)
+                {
+                    tv.setTextColor(Color.parseColor("black"));
                     tv.setBackgroundColor(Color.parseColor("white"));
-                else if(cases.getCaseAt(6,position).getCouleur() == 1)
+                }
+                else if(cases.getCaseAt(6,position).getCouleur() == 1) {
                     tv.setBackgroundColor(Color.parseColor("blue"));
+                    tv.setTextColor(Color.parseColor("white"));
+                }
                 else
                     tv.setBackgroundColor(Color.parseColor("red"));
                 // Return the TextView widget as GridView item
@@ -603,13 +647,18 @@ public class Grille {
                 tv.setPadding(0,0,0,0);
 
                 tv.setText(cases.getCaseAt(7,position).getValeur());
-                Log.i("position", Integer.toString(position));
+                //Log.i("position", Integer.toString(position));
                 // Set the TextView background color
 
                 if(cases.getCaseAt(7,position).getCouleur() == 0)
+                {
+                    tv.setTextColor(Color.parseColor("black"));
                     tv.setBackgroundColor(Color.parseColor("white"));
-                else if(cases.getCaseAt(7,position).getCouleur() == 1)
+                }
+                else if(cases.getCaseAt(7,position).getCouleur() == 1) {
                     tv.setBackgroundColor(Color.parseColor("blue"));
+                    tv.setTextColor(Color.parseColor("white"));
+                }
                 else
                     tv.setBackgroundColor(Color.parseColor("red"));
                 // Return the TextView widget as GridView item
@@ -664,13 +713,18 @@ public class Grille {
                 tv.setPadding(0,0,0,0);
 
                 tv.setText(cases.getCaseAt(8,position).getValeur());
-                Log.i("position", Integer.toString(position));
+                //Log.i("position", Integer.toString(position));
                 // Set the TextView background color
 
                 if(cases.getCaseAt(8,position).getCouleur() == 0)
+                {
+                    tv.setTextColor(Color.parseColor("black"));
                     tv.setBackgroundColor(Color.parseColor("white"));
-                else if(cases.getCaseAt(8,position).getCouleur() == 1)
+                }
+                else if(cases.getCaseAt(8,position).getCouleur() == 1) {
                     tv.setBackgroundColor(Color.parseColor("blue"));
+                    tv.setTextColor(Color.parseColor("white"));
+                }
                 else
                     tv.setBackgroundColor(Color.parseColor("red"));
                 // Return the TextView widget as GridView item
@@ -778,7 +832,7 @@ public class Grille {
                         }
 
                         // Set the last selected View text color as deselected item
-                        previousSelectedView.setTextColor(Color.DKGRAY);
+                        //previousSelectedView.setTextColor(Color.DKGRAY);
                     }
 
                     // Set the current selected view position as previousSelectedPosition
@@ -830,7 +884,7 @@ public class Grille {
                         }
 
                         // Set the last selected View text color as deselected item
-                        previousSelectedView.setTextColor(Color.DKGRAY);
+                        //previousSelectedView.setTextColor(Color.DKGRAY);
                     }
 
                     // Set the current selected view position as previousSelectedPosition
@@ -882,7 +936,7 @@ public class Grille {
                         }
 
                         // Set the last selected View text color as deselected item
-                        previousSelectedView.setTextColor(Color.DKGRAY);
+                        //previousSelectedView.setTextColor(Color.DKGRAY);
                     }
 
                     // Set the current selected view position as previousSelectedPosition
@@ -932,7 +986,7 @@ public class Grille {
                                 break;
                         }
                         // Set the last selected View text color as deselected item
-                        previousSelectedView.setTextColor(Color.DKGRAY);
+                        //previousSelectedView.setTextColor(Color.DKGRAY);
                     }
 
                     // Set the current selected view position as previousSelectedPosition
@@ -982,7 +1036,7 @@ public class Grille {
                                 break;
                         }
                         // Set the last selected View text color as deselected item
-                        previousSelectedView.setTextColor(Color.DKGRAY);
+                        //previousSelectedView.setTextColor(Color.DKGRAY);
                     }
 
                     // Set the current selected view position as previousSelectedPosition
@@ -1032,7 +1086,7 @@ public class Grille {
                                 break;
                         }
                         // Set the last selected View text color as deselected item
-                        previousSelectedView.setTextColor(Color.DKGRAY);
+                        //previousSelectedView.setTextColor(Color.DKGRAY);
                     }
 
                     // Set the current selected view position as previousSelectedPosition
@@ -1081,7 +1135,7 @@ public class Grille {
                                 break;
                         }
                         // Set the last selected View text color as deselected item
-                        previousSelectedView.setTextColor(Color.DKGRAY);
+                        //previousSelectedView.setTextColor(Color.DKGRAY);
                     }
 
                     // Set the current selected view position as previousSelectedPosition
@@ -1131,7 +1185,7 @@ public class Grille {
                                 break;
                         }
                         // Set the last selected View text color as deselected item
-                        previousSelectedView.setTextColor(Color.DKGRAY);
+                        //previousSelectedView.setTextColor(Color.DKGRAY);
                     }
 
                     // Set the current selected view position as previousSelectedPosition
@@ -1180,7 +1234,7 @@ public class Grille {
                                 break;
                         }
                         // Set the last selected View text color as deselected item
-                        previousSelectedView.setTextColor(Color.DKGRAY);
+                        //previousSelectedView.setTextColor(Color.DKGRAY);
                     }
 
                     // Set the current selected view position as previousSelectedPosition

@@ -12,8 +12,6 @@ public class Cases {
             cases.add(new ArrayList<Case>(0));
     }
 
-
-
     public void initJeu(List<String> vals, List<String> valsResolution) {
         int x = 0;
         //9 lignes
@@ -52,6 +50,11 @@ public class Cases {
                     }
                     x = x + 3;
                 }
+        }
+
+        for(int i = 0; i<9; i++){
+            for (int j = 0; j<9; j++)
+                cases.get(i).get(j).setCouleur(0);
         }
 
     }

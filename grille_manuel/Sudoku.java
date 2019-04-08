@@ -15,7 +15,7 @@ public class Sudoku {
     }
     public int[][] getGrille(){return grille;}
 
-    private boolean absentSurLigne(int k,int [][] grille,int i){
+    static private boolean absentSurLigne(int k,int [][] grille,int i){
         for(int j=0;j<9;j++){
             if(grille[i][j]==k){
                 return false;
@@ -38,7 +38,7 @@ public class Sudoku {
         System.out.println();
     }
 
-    private boolean absentSurColonne(int k,int [][] grille,int j){
+    static private boolean absentSurColonne(int k,int [][] grille,int j){
         for(int i=0;i<9;i++){
             if(grille[i][j]==k){
                 return false;
@@ -46,7 +46,7 @@ public class Sudoku {
         }
         return true;
     }
-    private boolean absentSurBloc(int k,int [][] grille,int i,int j){
+    static private boolean absentSurBloc(int k,int [][] grille,int i,int j){
         int _i=i-(i%3),_j=j-(j%3);
         for(i=_i;i<_i+3;i++){
             for(j=_j;j<_j+3;j++){
@@ -77,7 +77,8 @@ public class Sudoku {
         grille[i][j]=0;
         return false;
     }
-   static public void arrToList(int[][] tab, List<String> list){
+
+    static public void arrToList(int[][] tab, List<String> list){
         int indiceList = 0;
         //List<String> list = new LinkedList<>();
 
@@ -122,26 +123,10 @@ public class Sudoku {
         return tab;
     }
 
-
-/*
-    public static void main(String arg[]){
-        int [][] grilleT=
-                {       {0,0,6,8,0,0,0,9,4},
-                        {0,2,0,0,6,0,7,0,0},
-                        {7,0,0,4,0,2,0,0,0},
-                        {0,0,0,0,0,0,0,1,0},
-                        {6,4,0,0,2,8,3,5,0},
-                        {0,9,0,5,0,1,0,0,2},
-                        {4,0,2,6,0,3,0,0,5},
-                        {0,0,0,0,1,0,0,0,3},
-                        {8,0,9,0,0,0,1,2,0}};
-        Sudoku test= new Sudoku(grilleT);
-        //	estValide(test,0);
-        test.affichage();
-        test.estValide(grilleT,0);
-        test.affichage();
+    static boolean positionValide(int [][] grille,int val, int positionx, int positiony){
+        return (absentSurLigne(val,grille,positionx) && absentSurColonne(val,grille,positiony) && absentSurBloc(val,grille,positionx,positiony));
     }
-*/
+
 }
 //Sources :
 //https://openclassrooms.com/fr/courses/1256706-le-backtracking-par-lexemple-resoudre-un-sudoku
