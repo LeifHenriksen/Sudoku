@@ -1,5 +1,5 @@
-//package com.example.sudokuv2;
-package com.example.lhenriksenla.myapplication;
+package com.example.sudokuv2;
+//package com.example.lhenriksenla.myapplication;
 
 import android.util.Log;
 
