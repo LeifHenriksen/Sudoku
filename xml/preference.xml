@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="Réseau">
+        <CheckBoxPreference
+            android:key="checkBoxPref"
+            android:title="Titre"
+            android:summaryOn="Résumé quand sélectionné"
+            android:summaryOff="Résumé quand pas sélectionné"
+            android:defaultValue="true"/>
+
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Luminosité">
+        <EditTextPreference
+            android:key="editTextPref"
+            android:dialogTitle="Titre de la boîte"
+            android:positiveButtonText="Je valide !"
+            android:negativeButtonText="Je valide pas !"
+            android:title="Titre"
+            android:summary="Résumé"
+            android:dependency="checkBoxPref" />
+
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Couleurs">
+
+    </PreferenceCategory>
+</PreferenceScreen>
