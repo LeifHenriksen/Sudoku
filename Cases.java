@@ -6,6 +6,7 @@ import java.util.List;
 public class Cases {
     private List<List<Case>> cases;
 
+
     public Cases() {
         cases = new ArrayList<List<Case>>(0);
         for (int i = 0; i < 9; i++)
@@ -22,7 +23,7 @@ public class Cases {
                 //une lignes
                 for (int k = i; k < (i + 3); k++) {
                     for (int j = x; j < (x + 3); j++) {
-                        if(vals.get(j) == "")
+                        if(vals.get(j).equals(""))
                             cases.get(k).add(new Case(true, vals.get(j), valsResolution.get(j)));
                         else
                             cases.get(k).add(new Case(false, vals.get(j), valsResolution.get(j)));
@@ -52,11 +53,17 @@ public class Cases {
                 }
         }
 
+        for(int i = 0; i<9; i++){
+            for (int j = 0; j<9; j++)
+                cases.get(i).get(j).setCouleur(0);
+        }
+
     }
 
     public Case getCaseAt(int previousSelectedGridView, int previousSelectedPosition){
 
         return cases.get(previousSelectedGridView).get(previousSelectedPosition);
+
     }
 
     public void montrerReponse(){
@@ -64,17 +71,6 @@ public class Cases {
             for (int j = 0; j<9; j++)
                 cases.get(i).get(j).setValeur(cases.get(i).get(j).getValeurReponse());
         }
-    }
-
-    public void caseBloque(List<Case> kblo){
-        for (List<Case> c : cases) {
-            for (Case case1 : c){
-                if(case1.getValeur() != ""){
-                    kblo.add(case1);
-                }
-            }
-        }
-
     }
 
     public void clear(){

@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CameraActivity extends AppCompatActivity{
+public class CameraActivity extends AppCompatActivity {
 
     ImageView imageView;
     Button btnTakePic;
@@ -32,9 +32,9 @@ public class CameraActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        btnTakePic = findViewById(R.id.btnTakePic);
-        if (Build.VERSION.SDK_INT >= 23) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+        btnTakePic=findViewById(R.id.btnTakePic);
+        if(Build.VERSION.SDK_INT>=23){
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
         }
         btnTakePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +42,7 @@ public class CameraActivity extends AppCompatActivity{
                 dispatchTakePictureIntent();
             }
         });
-        imageView = findViewById(R.id.image);
+        imageView=findViewById(R.id.image);
     }
 
     @Override
@@ -56,6 +56,7 @@ public class CameraActivity extends AppCompatActivity{
         }
     }
 
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -64,8 +65,8 @@ public class CameraActivity extends AppCompatActivity{
             photoFile = createImageFile();
 
             if (photoFile != null) {
-                pathToFile = photoFile.getAbsolutePath();
-                Uri photoURI = FileProvider.getUriForFile(CameraActivity.this, "fr.jerems.sudokusolverv1.fileprovider", photoFile);
+                pathToFile=photoFile.getAbsolutePath();
+                Uri photoURI = FileProvider.getUriForFile(CameraActivity.this, "com.example.sudoku.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, 1);
 
@@ -76,14 +77,14 @@ public class CameraActivity extends AppCompatActivity{
     private File createImageFile() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/Sudoku/");
-        if (!storageDir.exists()) {
+        if(!storageDir.exists()){
             storageDir.mkdirs();
         }
         File image = null;
         try {
-            image = File.createTempFile(timeStamp, ".jpg", storageDir);
-        } catch (IOException e) {
-            Log.d("mylog", "Excep :" + e.toString());
+            image = File.createTempFile("120", ".jpg", storageDir);
+        } catch (IOException e){
+            Log.d("mylog","Excep :" + e.toString());
         }
 
         return image;

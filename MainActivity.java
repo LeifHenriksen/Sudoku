@@ -3,9 +3,8 @@ package com.example.sudoku;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,12 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
     //Fonction permettant de remplir un sudoku manuellement grace à l'activity EntreManuel
     public void grille(View view){
-        startActivity(new Intent(this,EntreManuel.class));
+        startActivity(new Intent(this,EditeurGrille.class));
     }
 
-
     public void resoudSudokuPhoto(View view){
-        startActivity(new Intent(this,SudokuSolver.class));
+        startActivity(new Intent(this,MActivity.class));
     }
 
     private boolean checkCameraHardware(Context context) {

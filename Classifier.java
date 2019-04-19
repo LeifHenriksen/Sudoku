@@ -1,25 +1,16 @@
 package com.example.sudoku;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.util.Log;
 
 import org.opencv.android.Utils;
-import org.opencv.core.Core;
-
 import org.opencv.core.Mat;
-
-import org.opencv.imgcodecs.Imgcodecs;
-
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.opencv.core.CvType.CV_8UC1;
-
 
 public class Classifier {
-
 
     private static Map<Integer, int[][]> data;
     private static boolean loaded;
@@ -30,6 +21,7 @@ public class Classifier {
     private static void loadData() throws Exception {
 
         data = new HashMap<>();
+        //Log.d("jrepz", "jepvrz");
 
 
         int [][]resources = new int[][]{
@@ -49,13 +41,11 @@ public class Classifier {
             for (int j = 1; j <=4; j++) {
 
                 Mat s = Utils.loadResource(App.getContext(),resources[i][j],0);
-                // Imgcodecs.imread((String)resources[i]);
-                //  Mat s= Imgcodecs.imread(Context.getResgetDrawable(R.drawable.e1_1).toString());
-                //Imgcodecs.imread("/media/res/drawable/e" + i + "_" + j + ".png");
+
                 if(s.empty()) {
-                    Log.d("testUl", "mauvais chemin!!!");
+                    Log.d("fdsvbsrbbb rb", " gfsn dggtnntgntg");
                 }else {
-                    Log.d("testUl", "bon chemin");
+                    Log.d("tbrsrzbzrb", "zvfffvbrvdvfrevre");
                 }
 
 

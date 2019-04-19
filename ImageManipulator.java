@@ -2,20 +2,29 @@ package com.example.sudoku;
 
 import android.util.Log;
 
-import org.opencv.core.*;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
-
-
-import java.io.File;
-import java.io.IOException;
-
 import static org.opencv.core.CvType.CV_8UC1;
-import static org.opencv.imgproc.Imgproc.*;
+import static org.opencv.imgproc.Imgproc.ADAPTIVE_THRESH_MEAN_C;
+import static org.opencv.imgproc.Imgproc.THRESH_BINARY;
+import static org.opencv.imgproc.Imgproc.floodFill;
+import static org.opencv.imgproc.Imgproc.line;
+import static org.opencv.imgproc.Imgproc.threshold;
 
 
 public class ImageManipulator {
+
+
+
+
     /**
      * Takes an image file and creates a Sudoku object
      */
@@ -90,11 +99,16 @@ public class ImageManipulator {
             }
         }
 
-        Sudoku s = new Sudoku();
-        s.setGrill(_data);
+        Sudoku s = new Sudoku(_data);
+
 
         return s;
     }
+
+    /**
+     * Takes a Mat object and writes a PNG image
+     */
+
 
     /**
      * Takes a file, loads it, applies adaptive thresholding, inverts the color and returns the Mat image

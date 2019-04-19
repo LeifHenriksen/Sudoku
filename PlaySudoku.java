@@ -241,14 +241,14 @@ public class PlaySudoku extends AppCompatActivity  implements View.OnClickListen
 
             case R.id.button10:
                 if(previousSelectedPosition != -1) {
-                    if((cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition)).getValeur() != ""){
+                    if((cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition)).getValeur() == ""){
                         grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "");
+
                     }
                 }
 
 
                 grilles.refreshNumbers(grilleAsList);
-                (cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition)).setValeur("");
                 grilles.invalidateViews();
                 break;
 
@@ -314,7 +314,6 @@ public class PlaySudoku extends AppCompatActivity  implements View.OnClickListen
 
 
     }
-
     public static boolean checkligne(int i,int j,int[][] m)
     {
         boolean check = true;
@@ -356,29 +355,6 @@ public class PlaySudoku extends AppCompatActivity  implements View.OnClickListen
         }
     }
 
-    public int getPositiontab(int t, int s){
-        int[][] positiontab = new int[9][9];
-        int x = 0;
-        int y = 0;
-
-        for (int i = 0; i < 9; i = i + 3) {
-
-            for (int e = 0; e < 3; e++) {
-                for (int k = i; k < (i + 3); k++) {
-                    for (int j = x; j < (x + 3); j++) {
-                        positiontab[k][j] = y;
-                        y++;
-                    }
-
-                }
-                x = x + 3;
-            }
-            x = 0;
-        }
-
-        return positiontab[t][s];
-    }
-
     public boolean accessible(List<String> c, String p){
         boolean pmeme = true;
 
@@ -389,6 +365,5 @@ public class PlaySudoku extends AppCompatActivity  implements View.OnClickListen
         }
         return pmeme;
     }
-
 
 }

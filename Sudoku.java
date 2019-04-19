@@ -2,7 +2,6 @@ package com.example.sudoku;
 
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Sudoku {
@@ -27,7 +26,7 @@ public class Sudoku {
 
     public int[][] getGrille(){return grille;}
 
-    private boolean absentSurLigne(int k,int[][] grille,int i){
+    private static boolean absentSurLigne(int k, int[][] grille, int i){
         for(int j=0;j<9;j++){
             if(grille[i][j]==k){
                 return false;
@@ -36,7 +35,7 @@ public class Sudoku {
         return true;
     }
 
-    private boolean absentSurColonne(int k,int [][] grille,int j){
+    private static boolean absentSurColonne(int k, int[][] grille, int j){
         for(int i=0;i<9;i++){
             if(grille[i][j]==k){
                 return false;
@@ -45,7 +44,7 @@ public class Sudoku {
         return true;
     }
 
-    private boolean absentSurBloc(int k,int [][] grille,int i,int j){
+    private static boolean absentSurBloc(int k, int[][] grille, int i, int j){
         int _i=i-(i%3),_j=j-(j%3);
         for(i=_i;i<_i+3;i++){
             for(j=_j;j<_j+3;j++){
@@ -112,6 +111,28 @@ public class Sudoku {
         //return list;
     }
 
+    static public String[] arrToTabString(int[][] tab){
+        int indiceList = 0;
+        String[] str = new String[81];
+
+        for(int i = 0; i<9 ; i++)
+        {
+            for (int j = 0; j < 9; j++) {
+                if(tab[i][j] == 0)
+                    str[indiceList] = "";
+                else
+                    str[indiceList] = Integer.toString(tab[i][j]);
+
+                indiceList++;
+            }
+        }
+
+        for(int i = 0; i<81; i++)
+            System.out.println(str[i]);
+
+        return str;
+    }
+
     static public int[][] listToArr(List<String> list){
 
         int[][] tab = new int[9][9];
@@ -138,5 +159,10 @@ public class Sudoku {
         Log.d("mon tab", Integer.toString(tab[0][8]));
         return tab;
     }
+
+    static boolean positionValide(int[][] grille, int val, int positionx, int positiony){
+        return (absentSurLigne(val,grille,positionx) && absentSurColonne(val,grille,positiony) && absentSurBloc(val,grille,positionx,positiony));
+    }
+
 
 }

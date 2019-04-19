@@ -1,12 +1,7 @@
 package com.example.sudoku;
 
 import android.util.Log;
-
-;
-
-
-public class SudokuSolver {
-
+public class SolverSudoku {
 
     public static void Solver() {
         Log.d("Creation","*****************************************qsdhhqs********************\n");
@@ -48,7 +43,5 @@ public class SudokuSolver {
 
         return  sudoku;
     }
-
-
 
 }
