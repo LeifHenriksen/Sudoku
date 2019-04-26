@@ -1,5 +1,7 @@
 package fr.jerems.sudokuvfinale;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class Cases {
 
     public void initJeu(List<String> vals, List<String> valsResolution) {
         int x = 0;
+        System.out.print(vals.toString());
         //9 lignes
         for (int i = 0; i < 9; i += 3) {
 
@@ -35,6 +38,7 @@ public class Cases {
 
     public void initModifiable(List<String> vals, List<String> valsResolution) {
         int x = 0;
+
         //9 lignes
         for (int i = 0; i < 9; i += 3) {
 
@@ -43,19 +47,18 @@ public class Cases {
                 //une lignes
                 for (int k = i; k < (i + 3); k++) {
                     for (int j = x; j < (x + 3); j++) {
-                        if(vals.get(j) == "")
+                        if(vals.get(j).equals("")) {
                             cases.get(k).add(new Case(true, vals.get(j), valsResolution.get(j)));
-                        else
-                            cases.get(k).add(new Case(true, vals.get(j), valsResolution.get(j)));
+
+                        }
+                            else
+                                cases.get(k).add(new Case(false, vals.get(j), valsResolution.get(j)));
                     }
                     x = x + 3;
                 }
         }
 
-        for(int i = 0; i<9; i++){
-            for (int j = 0; j<9; j++)
-                cases.get(i).get(j).setCouleur(0);
-        }
+
 
     }
 

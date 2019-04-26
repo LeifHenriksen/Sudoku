@@ -41,7 +41,7 @@ public class Case {
     }
 
     public boolean estLaReponse(String val){
-        return (valeurReponse == val);
+        return (valeurReponse.equals(val));
     }
 
     public void setCouleur(int col){

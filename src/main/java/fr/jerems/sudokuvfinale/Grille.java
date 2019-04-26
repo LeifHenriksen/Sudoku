@@ -167,7 +167,7 @@ public class Grille {
                         Also calculate the GridView padding, margins, vertical spacing
                         and horizontal spacing.
                  */
-                //params.width = getPixelsFromDPs(MainActivity.this,168);
+                //params.width = getPixelsFromDPs(DetecteurGrille.this,168);
 
                 // Set the TextView layout parameters
                 tv.setLayoutParams(params);
@@ -237,7 +237,7 @@ public class Grille {
                         Also calculate the GridView padding, margins, vertical spacing
                         and horizontal spacing.
                  */
-                //params.width = getPixelsFromDPs(MainActivity.this,168);
+                //params.width = getPixelsFromDPs(DetecteurGrille.this,168);
 
                 // Set the TextView layout parameters
                 tv.setLayoutParams(params);
@@ -303,7 +303,7 @@ public class Grille {
                         Also calculate the GridView padding, margins, vertical spacing
                         and horizontal spacing.
                  */
-                //params.width = getPixelsFromDPs(MainActivity.this,168);
+                //params.width = getPixelsFromDPs(DetecteurGrille.this,168);
 
                 // Set the TextView layout parameters
                 tv.setLayoutParams(params);
@@ -369,7 +369,7 @@ public class Grille {
                         Also calculate the GridView padding, margins, vertical spacing
                         and horizontal spacing.
                  */
-                //params.width = getPixelsFromDPs(MainActivity.this,168);
+                //params.width = getPixelsFromDPs(DetecteurGrille.this,168);
 
                 // Set the TextView layout parameters
                 tv.setLayoutParams(params);
@@ -434,7 +434,7 @@ public class Grille {
                         Also calculate the GridView padding, margins, vertical spacing
                         and horizontal spacing.
                  */
-                //params.width = getPixelsFromDPs(MainActivity.this,168);
+                //params.width = getPixelsFromDPs(DetecteurGrille.this,168);
 
                 // Set the TextView layout parameters
                 tv.setLayoutParams(params);
@@ -500,7 +500,7 @@ public class Grille {
                         Also calculate the GridView padding, margins, vertical spacing
                         and horizontal spacing.
                  */
-                //params.width = getPixelsFromDPs(MainActivity.this,168);
+                //params.width = getPixelsFromDPs(DetecteurGrille.this,168);
 
                 // Set the TextView layout parameters
                 tv.setLayoutParams(params);
@@ -566,7 +566,7 @@ public class Grille {
                         Also calculate the GridView padding, margins, vertical spacing
                         and horizontal spacing.
                  */
-                //params.width = getPixelsFromDPs(MainActivity.this,168);
+                //params.width = getPixelsFromDPs(DetecteurGrille.this,168);
 
                 // Set the TextView layout parameters
                 tv.setLayoutParams(params);
@@ -632,7 +632,7 @@ public class Grille {
                         Also calculate the GridView padding, margins, vertical spacing
                         and horizontal spacing.
                  */
-                //params.width = getPixelsFromDPs(MainActivity.this,168);
+                //params.width = getPixelsFromDPs(DetecteurGrille.this,168);
 
                 // Set the TextView layout parameters
                 tv.setLayoutParams(params);
@@ -698,7 +698,7 @@ public class Grille {
                         Also calculate the GridView padding, margins, vertical spacing
                         and horizontal spacing.
                  */
-                //params.width = getPixelsFromDPs(MainActivity.this,168);
+                //params.width = getPixelsFromDPs(DetecteurGrille.this,168);
 
                 // Set the TextView layout parameters
                 tv.setLayoutParams(params);

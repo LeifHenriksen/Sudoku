@@ -21,22 +21,29 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
-        <activity android:name=".OpenCVActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:parentActivityName=".OpenCVActivity">
+        <activity android:name=".Jouer"
+            android:parentActivityName=".EditeurGrille">
+        </activity>
+        <activity android:name=".DetecteurGrille"
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity android:name=".CameraActivity"
-            android:parentActivityName=".OpenCVActivity">
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity android:name=".EditeurGrille"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".DetecteurGrille">
        </activity>
+
+        <activity android:name=".Fin"
+            android:parentActivityName=".Jouer">
+        </activity>
     </application>
 
 </manifest>

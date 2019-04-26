@@ -2,6 +2,7 @@
 package fr.jerems.sudokuvfinale;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,16 +33,16 @@ https://android--code.blogspot.com/2015/08/android-gridview-add-item.html
 public class EditeurGrille extends AppCompatActivity implements View.OnClickListener {
 
     //changer a prive et faire un set get
-    private int previousSelectedPosition = -1;
-    private int previousSelectedGridView = -1;
+    protected int previousSelectedPosition = -1;
+    protected int previousSelectedGridView = -1;
 
-    private AdapterView.OnItemClickListener itemClickListener;
-    private Grille grilles;
-    private Cases cases;
+    protected AdapterView.OnItemClickListener itemClickListener;
+    protected Grille grilles;
+    protected Cases cases;
 
     //le string a utiliser pour le jeu
-    private List<String> grilleAsList;
-    private List<String>  grilleResolu;
+    protected List<String> grilleAsList;
+    protected List<String>  grilleResolu;
 
 
     void setPreviousSelectedPosition(int x){
@@ -131,7 +132,7 @@ public class EditeurGrille extends AppCompatActivity implements View.OnClickList
         Sudoku sudk = new Sudoku(Sudoku.listToArr(grilleResolu));
 
         sudk.estValide(sudk.getGrille(), 0);
-
+        sudk.print();
         Sudoku.arrToList(sudk.getGrille()  , grilleResolu);
 
         cases.initJeu(grilleAsList, grilleResolu);
@@ -163,6 +164,7 @@ public class EditeurGrille extends AppCompatActivity implements View.OnClickList
         Button buttonVide = findViewById(R.id.button10);
         Button buttonResoudre = findViewById(R.id.button11);
         Button buttonClear = findViewById(R.id.button12);
+
 
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
@@ -423,31 +425,47 @@ public class EditeurGrille extends AppCompatActivity implements View.OnClickList
 
                 //on doit changer grilleresolu car c'est possible qje la resolution a change
                 //si on modifie pas on peut enlever et simplement faire cases.montrerReponse()
-                Sudoku.arrToList(sudk.getGrille()  , grilleResolu);
-                Sudoku.arrToList(sudk.getGrille()  , grilleAsList);
+                sudk.print();
 
+
+
+                Sudoku.arrToList(sudk.getGrille()  , grilleResolu);
+                //Sudoku.arrToList(sudk.getGrille()  , grilleAsList);
+
+                Log.d("grille aslist", grilleAsList.toString());
+                Log.d("grille resolu", grilleResolu.toString());
                 toast = Toast.makeText(getApplicationContext(),"Temps de resolution milliseconds = " + (Calendar.getInstance().get(Calendar.MILLISECOND) - millis), Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 //===================================Fin Resolution=============================================//
 
 
-                grilles.refreshNumbers(grilleAsList);
-
-                for(int i = 0; i<81; i++)
-                    Log.i("grille resolu", grilleResolu.get(i));
+                //grilles.refreshNumbers(grilleAsList);
                 //update cases
+
                 cases = new Cases();
                 cases.initModifiable(grilleAsList,grilleResolu);
                 cases.montrerReponse();
-                grilles.setCases(cases);
 
+                grilles.setCases(cases);
                 grilles.invalidateViews();
 
 
 
                 break;
-
+            case R.id.button13:
+                Sudoku sudk2 = new Sudoku(Sudoku.listToArr(grilleAsList));
+                if(! sudk2.estValide(sudk2.getGrille(),0)){
+                    toast = Toast.makeText(getApplicationContext(),"Grille non valide" , Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+                else {
+                    Intent intent = new Intent(this, Jouer.class);
+                    intent.putExtra("EXTRA_MESSAGE", Sudoku.arrToTabString(Sudoku.listToArr(grilleAsList)));
+                    startActivity(intent);
+                }
+                break;
             default:
                 throw new RuntimeException("Unknow button ID");
         }
