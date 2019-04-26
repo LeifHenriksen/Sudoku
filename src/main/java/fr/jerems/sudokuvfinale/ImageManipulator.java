@@ -18,7 +18,7 @@ import static org.opencv.imgproc.Imgproc.*;
 
 public class ImageManipulator {
 
- 
+
 
 
     /**
@@ -44,7 +44,7 @@ public class ImageManipulator {
             _sudoku = extractCells(_warped, writeCells);
 
         } catch (Exception e) {
-   
+
         }
 
         return _sudoku;
@@ -89,14 +89,14 @@ public class ImageManipulator {
                 Imgproc.warpPerspective(dst, dst_f, perspectiveTransform_f, new Size(25, 25));
                 threshold(dst_f, dst_f, 128, 255, THRESH_BINARY);
 
-              //  if (writeCells) Mat2BufferedImage(dst_f, String.valueOf(10*x+y));
+                //  if (writeCells) Mat2BufferedImage(dst_f, String.valueOf(10*x+y));
 
                 _data[(int) (y-1)][(int) (x-1)] = Classifier.getBox(dst_f);
             }
         }
 
-        Sudoku s = new Sudoku();
-        s.setGrille(_data);
+        Sudoku s = new Sudoku(_data);
+
 
         return s;
     }
@@ -219,7 +219,7 @@ public class ImageManipulator {
     /**
      * Apply Hough transformation and detect lines
      */
-   private static void drawLines(Mat image) {
+    private static void drawLines(Mat image) {
 
         int height = (int) image.size().height;
         int width = (int) image.size().width;

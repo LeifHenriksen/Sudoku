@@ -1,25 +1,50 @@
 package fr.jerems.sudokuvfinale;
-
+//package com.example.lhenriksenla.myapplication;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+//l'algo ne marche pas si il y a une mauvais saisie, on doit faire une mesage de erreur
 public class Sudoku {
 
-  
-    private int[][] grille;
+    private int [][] grille;
+
+    public Sudoku(int [][] grille){
+        this.grille=grille;
+    }
+
+    public int[][] getGrille(){return grille;}
+
+    public void print() {
+        Log.d("tab", "hola");
+
+        String str = "";
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++)
+            {
+                if(grille[i][j]!=0)
+                    System.out.print(grille[i][j]);
+                else System.out.print(0);
+                //              }str = str + Integer.toString(grille[i][j]);
+            }  System.out.println();
+        }
+        System.out.println();
+        //  str = str + '\n';
+    }
+
+    //Log.d("tab", str);
 
     public void setGrille(int[][] grille) {
         if (grille.length!=9 || grille[0].length!=9) {
-           System.out.println("error");
+            System.out.println("error");
             return;
         }
         this.grille = grille;
     }
 
-    public  int[][] getGrille() {
-        return this.grille;
-    }
-    public boolean absentSurLigne(int k,int [][] grille,int i){
+    static private boolean absentSurLigne(int k,int [][] grille,int i){
         for(int j=0;j<9;j++){
             if(grille[i][j]==k){
                 return false;
@@ -27,7 +52,22 @@ public class Sudoku {
         }
         return true;
     }
-    private boolean absentSurColonne(int k,int [][] grille,int j){
+
+    public void affichage(){
+
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(grille[i][j]!=0)
+                    Log.i("tab", Integer.toString(grille[i][j]));
+                else
+                    Log.i("tab", " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    static private boolean absentSurColonne(int k,int [][] grille,int j){
         for(int i=0;i<9;i++){
             if(grille[i][j]==k){
                 return false;
@@ -35,7 +75,7 @@ public class Sudoku {
         }
         return true;
     }
-    public boolean absentSurBloc(int k,int [][] grille,int i,int j){
+    static private boolean absentSurBloc(int k,int [][] grille,int i,int j){
         int _i=i-(i%3),_j=j-(j%3);
         for(i=_i;i<_i+3;i++){
             for(j=_j;j<_j+3;j++){
@@ -65,26 +105,85 @@ public class Sudoku {
 
         grille[i][j]=0;
         return false;
+    }
+
+    static public void arrToList(int[][] tab, List<String> list){
+        int indiceList = 0;
+        //List<String> list = new LinkedList<>();
+
+        for(int i = 0; i<9 ; i++)
+        {
+            for (int j = 0; j < 9; j++) {
+                if(tab[i][j] == 0)
+                    list.set(indiceList, "");
+                else
+                    list.set(indiceList, Integer.toString(tab[i][j]));
+
+                indiceList++;
+            }
+        }
+        //return list;
+    }
+    static public void StringToList(String[] str, List<String> list){
+        for(int i = 0; i<81; i++)
+        {
+            list.add(str[i]);
+        }
+    }
+    static public String[] arrToTabString(int[][] tab){
+        int indiceList = 0;
+        String[] str = new String[81];
+
+        for(int i = 0; i<9 ; i++)
+        {
+            for (int j = 0; j < 9; j++) {
+                if(tab[i][j] == 0)
+                    str[indiceList] = "";
+                else
+                    str[indiceList] = Integer.toString(tab[i][j]);
+
+                indiceList++;
+            }
+        }
+
+        for(int i = 0; i<81; i++)
+            System.out.println(str[i]);
+
+            return str;
+    }
+
+    static public int[][] listToArr(List<String> list){
+
+        int[][] tab = new int[9][9];
+        int indiceList = 0;
+        String grille = "";
+        for(int i = 0; i<9 ; i++)
+        {
+            for (int j = 0; j < 9; j++) {
+                //tab[i][j] = Integer.parseInt(list.get(indiceList));
+                if (list.get(indiceList).equals("")) {
+                    tab[i][j] = 0;
+                    grille = grille + '0';
+                }
+                else {
+                    tab[i][j] = Integer.parseInt(list.get(indiceList));
+                    grille = grille + list.get(indiceList);
+                }
+                indiceList++;
+            }
+            grille = grille + '\n';
+
+        }
+        Log.d("mon Sudoku", "\n" + grille);
+        Log.d("mon tab Sudoku", Integer.toString(tab[0][8]));
+        return tab;
+    }
+
+    static boolean positionValide(int [][] grille,int val, int positionx, int positiony){
+        return (absentSurLigne(val,grille,positionx) && absentSurColonne(val,grille,positiony) && absentSurBloc(val,grille,positionx,positiony));
+    }
+
 }
-
-    public void print() {
-        Log.d("tab", "hola");
-
-        String str = "";
-        for(int i=0;i<9;i++){
-            for(int j=0;j<9;j++)
-            {
-                      if(grille[i][j]!=0)
-                                      System.out.print(grille[i][j]);
-                                 else System.out.print(0);
-                //              }str = str + Integer.toString(grille[i][j]);
-            }  System.out.println();
-        }
-        System.out.println();
-          //  str = str + '\n';
-        }
-
-        //Log.d("tab", str);
-  }
-  
-
+//Sources :
+//https://openclassrooms.com/fr/courses/1256706-le-backtracking-par-lexemple-resoudre-un-sudoku
+//http://imss-www.upmf-grenoble.fr/prevert/Prog/Java/CoursJava/tableaux.html

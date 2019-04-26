@@ -52,9 +52,7 @@ public class Classifier {
             for (int j = 1; j <=4; j++) {
 
                 Mat s = Utils.loadResource(App.getContext(),resources[i][j],0);
-                   // Imgcodecs.imread((String)resources[i]);
-                     //  Mat s= Imgcodecs.imread(Context.getResgetDrawable(R.drawable.e1_1).toString());
-                               //Imgcodecs.imread("/media/res/drawable/e" + i + "_" + j + ".png");
+
                 if(s.empty()) {
                     Log.d("testUl", "mauvais chemin!!!");
                 }else {

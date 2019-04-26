@@ -33,15 +33,20 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private ImageView imgPhoto;
     private Button btnphoto;
+
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         context=getApplicationContext();
         System.loadLibrary("opencv_java3");
         setContentView(R.layout.activity_main);
         //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-
         initActivity();
+
+
         Log.d("Creation","test132155");
     }
 
@@ -80,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode,int resultCode,Intent data){
-
-       super.onActivityResult(requestCode,resultCode,data);
+        int tabEdiGrille[][] = new int[9][9];
+         super.onActivityResult(requestCode,resultCode,data);
         //on verifie si l'image a été recuperee
         if(requestCode==1 && resultCode==RESULT_OK){
              //acces a l'image a partir de data
@@ -110,12 +115,24 @@ public class MainActivity extends AppCompatActivity {
                 Imgproc.resize(src,dest,size,344,726,Imgproc.INTER_LINEAR);//resize image
                Imgcodecs.imwrite(currentPhotoPath, dest);
                 System.out.println("laaaaaaaaaaaaaaaaaaaaa" + currentPhotoPath);
-                SudokuSolver.solveImage(currentPhotoPath);
+               tabEdiGrille =  (SudokuSolver.solveImage(currentPhotoPath)).getGrille();
             }else {
 
-                SudokuSolver.solveImage(imgPath);
+                tabEdiGrille = (SudokuSolver.solveImage(imgPath)).getGrille();
             }
+
+
             Log.d("finResolution", imgPath);
+
+            Intent intent = new Intent(this, EditeurGrille.class);
+
+            for(int i = 0 ; i<9; i++)
+                for(int j = 0 ; j<9; j++)
+                    System.out.println(tabEdiGrille[i][j]);
+
+            intent.putExtra("EXTRA_MESSAGE", Sudoku.arrToTabString(tabEdiGrille));
+
+            startActivity(intent);
         }
         else{
             Toast.makeText(this,"aucune image selectione", Toast.LENGTH_LONG).show();

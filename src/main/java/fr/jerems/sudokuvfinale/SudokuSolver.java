@@ -1,5 +1,6 @@
 package fr.jerems.sudokuvfinale;
 
+import android.content.Intent;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import static org.opencv.imgproc.Imgproc.*;
 
 
 public class SudokuSolver {
+
 
 	public static void Solver() {
 		Log.d("Creation","*****************************************qsdhhqs********************\n");
@@ -31,26 +33,28 @@ public class SudokuSolver {
     
     }
    //Resout  une grille de sudoku a partir d'une image
-    public static void solveImage (String filename) {
+    public static Sudoku solveImage (String filename) {
 
         long startTime = System.currentTimeMillis();
 
 		Sudoku sudoku = ImageManipulator.convertToSudoku(filename, false);
 		if (sudoku==null) {
 		  System.out.println("D�sole votre grille n'a pas pu �tre identifi�,essayer de prendre une autre photo...");
-		    return;
+		  return sudoku;
 		}
 		sudoku.print();
+
 		//sudoku.estValide(sudoku.getGrille(), 0);
 		//sudoku.print();
+
 		System.out.println("Bravo!");
-		
-		
-		
+
+
+
 
 		System.out.println("\nTemps de r�solution  : "+ (System.currentTimeMillis() - startTime)+ " ms");
         
-
+		  return  sudoku;
     }
 
 
