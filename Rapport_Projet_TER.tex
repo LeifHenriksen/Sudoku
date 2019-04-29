@@ -194,9 +194,31 @@ Notre application à pour but de prendre en photo une grille de sudoku, analyser
 \draw [arrow] (pro4) |- (pro2);
 \draw [arrow] (pro3) -- (stop);
 \end{tikzpicture}
-
+\\
 \subsection{Analyse d'image}
 \subsection{Interface graphique et interaction}
+L’interface graphique est divisé en deux components principales, d’abord la grille de 81 cases, et après, les boutons nécessaires à l'utilisation de l’application. La deuxième partie est simplement une interface de menu classique, différentes boutons qui donneront accès aux autres parties de l’application. La première partie est chargée de l’affichage des données qui vient de l’analyse d’image ou de l'algorithme de résolution, et aussi est charge de permettre à l'utilisateur de modifier les valeurs des casses, pour qu'il puisse modifier la grille s’il y a eu un erreur avec l’analyse d’image ou s’il a choisi de jouer. Donc elle est beaucoup plus compliqué et nous allons l’expliquer plus en détaille.
+\\
+\\
+Nous avons créé 4 classes pour  mettre en place la grille, 
+
+\begin{itemize}
+    \item EditeurGrille \\
+La classe EditeurGrille est chargée de gérer les valeurs qui viennent de l’analyse d’image et l’algorithme de résolution, aussi du control des boutons pour la modification des valeurs. 
+
+    \item Grille \\
+La classe Grille contient tout les méthodes nécessaires pour faire la mise à jour de la grille, Grille lit les couleurs des casses, le nombre de chaque casse, et les affiche correctement.
+    
+    \item Cases \\
+La classe Cases contient 81 objets Case, et elle est chargée de les modifier tous ensemble et les gérer. 
+    
+    \item Case \\
+La classe Case représente une casse dans la grille, elle contient plusieurs attributs utiles pour l'éditeur et pour le jeu, principalement une Case contient une valeur et une couleur(blanc, bleu ou rouge), le couleur blanc représente une casse modifiable, bleu une casse non modifiable (si on n’est pas en mode jeu on peut toujour modifier une casse bleu), et rouge une casse avec une mauvaise valeur (utilisée seulement dans le jeu) . Case contient aussi autres attributs et méthodes mais ils seront expliqué avec plus de détaille dans la partie Jeu.
+
+
+\end{itemize}\\
+
+
 \subsection{Algorithme de resolution}
 \subsection{Jeu}
 \subsection{Rassemblement}
