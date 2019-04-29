@@ -2,6 +2,17 @@
 \usepackage[utf8]{inputenc}
 %%%%%%%%%%%POUR LES ALGOS %%%%%%%%%%%%%%
 \usepackage [french,onelanguage,algoruled]{algorithm2e}
+
+%%%%%%%%%%%%%%%%%%flow charts%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+%%%%%%%%%%%%%fin%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \title{TER}
 \author{jeremy.simione }
 \date{April 2019}
@@ -135,21 +146,60 @@ Nous avons aussi créer un diagramme de gantt afin de planifier les tâches pour
 avons utilisé \LaTeX  pour sa capacité à produire des documents de bonne qualité.
 
 
-\section{Conception du Sudoku}
+\section{Conception}
 
-
-Deuxiemement il s'agissait de faire une partie qui se charger de récuperer les données de la classe Sudoku et qui allait l'afficher dans une application android c'est a dire réaliser l'affichage graphique de notre classe sudoku en passant par une application android.\\\\
-Il fallait ensuite pour le projet pouvoir prendre une image en photo afin de pouvoir la faire lire ensuite par une intelligence artificielle cappable de lire des nombres a partir d'une image.\\
-Cette partie consistait encore a développer une interface android avec des boutons et un acces a la camera du smartphone de l'utilisateur pour pouvoir l'enregistrer dans une galerie de photos afin de  retrouver le chemin de l'image et procéder à la reconnaissance.\\
-
-Ensuite nous avions besoin d'une partie qui nous permettrait de lire l'image ainsi enregistrée a savoir l'intelligence artificielle.
-Cette partie a été de loin la plus dure et la plus longue car il s'agissait d'appliquer des traitements a l'image en fonction afin de faciliter la lecture par l'IA.
+Nous avons décidé de faire la conception de ce projet en 5 parties, analyse d'image, interface graphique et interaction, le jeu, algorithme de résolution, et rassemblement des parties. Nous avons essayé d'avoir une intersection vide entre les 5 parties, avec le but de pouvoir travailler parallèlement, donc à part la partie rassemblement et interface graphique avec jeu, les différents parties sont indépendants. 
+\\
+\\
+Tout d'abord nous allons vous expliquer l'idée générale de notre application, comment elle fonctionne et ses objectifs, puis nous allons décrire avec plus de détails les 5 parties mentionnées précédemment dans l'ordre suivant, premièrement l'analyse d'image, deuxièmement l'interface graphique et l'interaction, troisièmement l'algorithme de résolution, quatrièmement le jeu, et cinquièmement le rassemblement des parties.
 
 
 
 
-\subsection{}
+\subsection{General}
 
+Notre application à pour but de prendre en photo une grille de sudoku, analyser cette image, extraire les valeurs des cases et les affiches dans une grille, une fois les valeurs sont dans l’application, on peut choisir de jouer ou de résoudre la grille en utilisant l’algorithme de résolution. 
+
+
+
+\begin{tikzpicture}[node distance=2cm]
+\node (start) [startstop] {Start};
+\node (in1) [io, below of=start] {Image};
+\node (pro1) [process, below of=in1] {Analyse d'image};
+\node (pro2) [process, below of=pro1] {Affichage};
+\node (dec1) [decision, below of=pro2, yshift=-0.5cm] {Jouer?};
+\node (pro2a) [process, right of=dec1, xshift=2cm] {Jeu};
+\node (dec1a) [decision, below of=pro2a, yshift=-0.5cm] {Fin jeu?};
+\node (dec2) [decision, below of=dec1, yshift=-0.5cm] {Résoudre?};
+
+\node (pro3) [process, below of=dec2
+, yshift=-0.5cm] {Resolution};
+
+\node (pro4) [process, left of=dec2, xshift=-2cm] {Update};
+
+\node (stop) [startstop, below of=pro3] {Stop};
+
+\draw [arrow] (start) -- (in1);
+\draw [arrow] (in1) -- (pro1);
+\draw [arrow] (pro1) -- (pro2);
+\draw [arrow] (pro2) -- (dec1);
+\draw [arrow] (pro2a) -- (dec1a);
+\draw [arrow] (dec1) -- node[anchor=south] {Oui}(pro2a);
+\draw [arrow] (dec1a) -- node[anchor=east] {Non}(pro2a);
+\draw [arrow] (dec1a) |- node[anchor=west] {Oui}(stop);
+\draw [arrow] (dec1) -- node[anchor=east] {Non}(dec2);
+\draw [arrow] (dec2) -- node[anchor=east] {Oui}(pro3);
+\draw [arrow] (dec2) -- node[anchor=south] {Non}(pro4);
+
+\draw [arrow] (pro4) |- (pro2);
+\draw [arrow] (pro3) -- (stop);
+\end{tikzpicture}
+
+\subsection{Analyse d'image}
+\subsection{Interface graphique et interaction}
+\subsection{Algorithme de resolution}
+\subsection{Jeu}
+\subsection{Rassemblement}
 
 
 \section{Implémentation du Sudoku}
