@@ -221,7 +221,11 @@ La classe Case représente une casse dans la grille, elle contient plusieurs att
 
 \subsection{Algorithme de resolution}
 \subsection{Jeu}
+Pour le jeu nous avons créé la classe Jouer qui hérite de la classe EditeurGrille, le jeu fait la même chose que EditeurGrille, mais utilise des attributs dans la classe Case pour la logique de jeu. La classe Case contient deux attributs importants pour le jeu, estModifiable et valeurReponse,  quand nous essayons de changer la valeur d’une casse d’abord nous vérifions si elle est modifiable, après nous confirmons si nous avons mis la bonne valeur, si c'était le cas nous la transformons en non modifiable, nous changeons la valeur et la couleur en bleu et nous enlevons 1 au compteur de casses vides, sinon nous changeons la couleur en rouge et ajoutons 1 au compteur d’erreurs. Le jeu finit quand le nombre de cases vides est equal a 0.
+
 \subsection{Rassemblement}
+Pour le rassemblement nous nous avons assurer que les autres parties étaient le plus indépendantes possibles, donc pour les rassembler nous avons utilisé les outils de notre système d'exploitation, Android, pour qu’elles puissent communiquer entre elles, et grâce à leur indépendance nous avons évité centaines de bugs. L’analyse d’image envoi de l’information à l'éditeur de grille, puis si le joueur souhaite la résolution, l’algorithme de résolution lui donne la réponse, sinon l'éditeur de grille envoi l’information de la grille à la classe Jouer, et le joueur peut jouer.
+
 
 
 \section{Implémentation du Sudoku}
