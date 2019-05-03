@@ -53,7 +53,7 @@ Boudet Vincent
 \vspace*{0.1in}
 \begin{large}
 Etudiants: \\
-Simione Jérémy, Henriksen Leif \\
+Simione Jérémy, Henriksen Leif, BESSON Thomas \\
  
 \end{large}
 \end{center}
@@ -215,16 +215,24 @@ La classe Cases contient 81 objets Case, et elle est chargée de les modifier to
     \item Case \\
 La classe Case représente une casse dans la grille, elle contient plusieurs attributs utiles pour l'éditeur et pour le jeu, principalement une Case contient une valeur et une couleur(blanc, bleu ou rouge), le couleur blanc représente une casse modifiable, bleu une casse non modifiable (si on n’est pas en mode jeu on peut toujour modifier une casse bleu), et rouge une casse avec une mauvaise valeur (utilisée seulement dans le jeu) . Case contient aussi autres attributs et méthodes mais ils seront expliqué avec plus de détaille dans la partie Jeu.
 
-
 \end{itemize}\\
 
-
 \subsection{Algorithme de resolution}
-\subsection{Jeu}
-Pour le jeu nous avons créé la classe Jouer qui hérite de la classe EditeurGrille, le jeu fait la même chose que EditeurGrille, mais utilise des attributs dans la classe Case pour la logique de jeu. La classe Case contient deux attributs importants pour le jeu, estModifiable et valeurReponse,  quand nous essayons de changer la valeur d’une casse d’abord nous vérifions si elle est modifiable, après nous confirmons si nous avons mis la bonne valeur, si c'était le cas nous la transformons en non modifiable, nous changeons la valeur et la couleur en bleu et nous enlevons 1 au compteur de casses vides, sinon nous changeons la couleur en rouge et ajoutons 1 au compteur d’erreurs. Le jeu finit quand le nombre de cases vides est equal a 0.
 
-\subsection{Rassemblement}
-Pour le rassemblement nous nous avons assurer que les autres parties étaient le plus indépendantes possibles, donc pour les rassembler nous avons utilisé les outils de notre système d'exploitation, Android, pour qu’elles puissent communiquer entre elles, et grâce à leur indépendance nous avons évité centaines de bugs. L’analyse d’image envoi de l’information à l'éditeur de grille, puis si le joueur souhaite la résolution, l’algorithme de résolution lui donne la réponse, sinon l'éditeur de grille envoi l’information de la grille à la classe Jouer, et le joueur peut jouer.
+\subsection{Jeu}
+Tout d'abord il a fallut créer différents niveau de jeu pour le sudoku. Un iveau facile, intermédiaire et un niveau difficile. 
+Pour faire cela on a utilisé différentes strucutre. Une clase case pour chaque case du jeu et une clase Sudo9x9 permettant de pointer directement sur les cases via un tableau de 9 par 9. Cette clase Sudo9x9 permet de modifier les cases et de pouvoir résoudre un sudoku. 
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.5]{Img/digramme.png}
+    \caption{Diagramme UML pour jouer} 
+\end{figure}
+
+Sur la figure 1 nous pouvons donc voir le graphe UML de la section jeux. 
+Bien évidemment toutes les fonctions n'ont pas étaient représentées mais les plus importante sont sur le graphe. \\
+Pour créer un niveau on va appeler une instance de PlaySudoku qui permet de créer les niveaux. 
+
 
 
 
@@ -306,6 +314,94 @@ La derniere partie consistait a lier les trois classes c'est a dire notre classe
 
 Voici ci-dessous des algorithmes de traitement de l'image utilisés par OpenCV:
 
+
+\subsection{Création de Grille de jeu}
+(Tout les algorithmes présenter dans cette partie sont présent dans la classe Sudo9x9 qui a pour attribut un tableau de Case[9][9] appelé tabC).\\
+Pour créer une grille jouable il faut d'abord savoir si la grille est résolvable. 
+Pour ca on le fait en 3 étapes : 
+\begin{itemize}
+    \item Première étape : \\
+    On va d'abord créer une grille donc un tableau de 9x9 (initialisé avec des cases vide ou plutôt à 0);
+    \item Deuxième étape : \\
+    On va donc remplir notre tableau avec 10 valeur placé au hasard et avec une une valeur compris entre 1 et 9. 
+    
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwData{Tableau à deux dimension de Case : T}
+\KwResult{Rempli le tableau avec des valeurs au hasard}
+
+ i $\leftarrow$ chiffre aléatoire compris entre 1 et 9;\\
+ j $\leftarrow$ chiffre aléatoire compris entre 1 et 9;\\
+ c $\leftarrow$ On cré un case;
+
+\If{T(i,j) = 0}{
+T(i,j) $\leftarrow$ c;\\
+\While{Pas bon sur la ligne, la colonne et dans le bloc}
+    {
+     c $\leftarrow$ c.setValeur(chiffre compris entre 1 et 9);\\
+     T(i,j) $\leftarrow$ c;
+    }
+}
+{
+rempli(tabC);\\
+}
+
+
+\caption{Rempli(Case[][] T)}
+\end{algorithm}
+
+    \item Troisième étape : \\
+    On résoud la grille sur notre tableau via notre algorithme de résolution, ensuite on vide la tableau selon un certain nombre et selon le niveau. Puis on bloque les cases qui reste.
+    
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwData{un entier n qui sera le nombre de case à vider}
+\KwResult{vider tabC}
+
+ i $\leftarrow$ 0;\\
+ j $\leftarrow$ 0;\\
+\While{n supérieur à 0}
+    {
+     i $\leftarrow$ prend un chiffre aléatoire entre 1 et 9;\\
+ j $\leftarrow$ prend un chiffre aléatoire entre 1 et 9;\\
+ \If{valeur de tabC(i,j) != 0}{
+ valeur de tabC(i,j) $\leftarrow$ 0;\\
+ n $\leftarrow$ n-1;
+ }
+    }
+
+
+\caption{Vide(int n)}
+\end{algorithm}
+\newpage
+\end{itemize}
+
+Notre algorithme final pour créer une grille de jeux est donc le suivant : 
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwData{Un entier n pour savoir combien de case on va vider}
+\KwResult{Créer notre grille de jeu selon le niveau}
+
+ tabh $\leftarrow$ tableau à deux dimension de 9 par 9;\\
+ \For{j de 0 à 8}{
+ \For{k de 0 à 8}{
+ tabC(j,k) $\leftarrow$ créer une case initialisé à 0;\\
+ }
+ }
+ 
+ \For{i de 0 à 9}{
+ remplir tabC;\\
+ }
+ 
+ tabh $\leftarrow$ convertir tabC qui est un tableau de case en tableau d'entier pour résoudre notre grille;\\
+ resoudre(tabh,0);\\
+ tabC $\leftarrow$ copie tabh dans tabC;\\
+ vide(n);\\
+
+\caption{Sudo9x9(int n)}
+\end{algorithm}
 
 
 \newpage
