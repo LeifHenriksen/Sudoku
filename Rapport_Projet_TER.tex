@@ -3,6 +3,13 @@
 %%%%%%%%%%%POUR LES ALGOS %%%%%%%%%%%%%%
 \usepackage [french,onelanguage,algoruled]{algorithm2e}
 \usepackage{graphicx} 
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
 \usepackage{fancyhdr}
 \usepackage{geometry}
 \geometry{hmargin=3cm,vmargin=3cm}
@@ -71,12 +78,19 @@ Je tiens à remercier toutes les personnes qui m'ont aidé à rédiger cet artic
 %\fancyheadoffset{3 cm}
 \fancyhead[L]{Jérémy SIMIONE, Leif HENRIKSEN}
 \fancyhead[R]{Sudoku AR--Rapport de projet T.E.R}
-\section{Introduction}
+\section*{Introduction}
+Dans le cadre de L'UE Projet de Programmation , nous avons développé une application permettant à un utilisateur de prendre une grille de Sudoku en photo pour pouvoir la résoudre directement ou alors jouer.\\\\
+Notre groupe est composé de trois personnes, Jérémy SIMIONE, Leif HENRIKSEN et Thomas BESSON, et nous sommes encadrés par M. Vincent BOUDET.La réalisation du projet s'est déroulée sur une période de 13 semaines de fin janvier à fin avril.
 
-\subsection{Objectifs du projet et cahier des charges}
+
+\subsection*{Motivations du Projet}
+L'utilisation de l'intelligence artificielle pour le traitement d'image et la réalisation d'une application Android pour l'implémenter est un sujet qui nous a directement intéressé, ce sont des systèmes qui se développent de plus en plus aujourd'hui car ils sont très efficaces en reconnaissant des chiffres ou tout type d'objets.\\\\
+Ces systèmes sont très developpés chez Google, Amazon ou Microsoft pour des voitures autonomes, des magasins autonomes ou toute autre système autonome.
+
+\newpage
+\subsection*{Objectifs du projet et cahier des charges}\\\\
 L’objectif est de permettre à l' utilisateur de prendre une photo d'une grille de Sudoku afin qu'il puisse 
 obtenir la solution de la grille, le second objectif est qu'il puisse jouer sur l'application.
-
 Il existe déjà des applications Android capables de réaliser cet objectif, mais la plupart ont du mal a obtenit un résultat correct.
 
 
@@ -103,11 +117,6 @@ Création d'une partie jouable en utilisant l'interface graphique de l'applicati
 
 \textbf{Rassemblement des différentes parties}\\
 S'assurer de la compatiblite de tous les classes pour avoir le comportement dessire, et faire les modifications necessaires à la interface graphique pour pouvoir accerder a tous les fonctionalites de l'application.
-
-
-
-
-
 
 \newpage
 \section{Organisation du projet}
@@ -146,21 +155,92 @@ Nous avons aussi créer un diagramme de gantt afin de planifier les tâches pour
 \newline Pour rédiger les différents documents, y compris ce rapport, nous
 avons utilisé \LaTeX  pour sa capacité à produire des documents de bonne qualité.
 
-
+\newpage
 \section{Conception du Sudoku}
 
 
-Deuxiemement il s'agissait de faire une partie qui se charger de récuperer les données de la classe Sudoku et qui allait l'afficher dans une application android c'est a dire réaliser l'affichage graphique de notre classe sudoku en passant par une application android.\\\\
-Il fallait ensuite pour le projet pouvoir prendre une image en photo afin de pouvoir la faire lire ensuite par une intelligence artificielle cappable de lire des nombres a partir d'une image.\\
-Cette partie consistait encore a développer une interface android avec des boutons et un acces a la camera du smartphone de l'utilisateur pour pouvoir l'enregistrer dans une galerie de photos afin de  retrouver le chemin de l'image et procéder à la reconnaissance.\\
-
-Ensuite nous avions besoin d'une partie qui nous permettrait de lire l'image ainsi enregistrée a savoir l'intelligence artificielle.
-Cette partie a été de loin la plus dure et la plus longue car il s'agissait d'appliquer des traitements a l'image en fonction afin de faciliter la lecture par l'IA.
+Nous avons décidé de faire la conception de ce projet en 5 parties, analyse d'image, interface graphique et interaction, le jeu, algorithme de résolution, et rassemblement des parties. Nous avons essayé d'avoir une intersection vide entre les 5 parties, avec le but de pouvoir travailler parallèlement, donc à part la partie rassemblement et interface graphique avec jeu, les différents parties sont indépendants. 
+\\
+\\
+Tout d'abord nous allons vous expliquer l'idée générale de notre application, comment elle fonctionne et ses objectifs, puis nous allons décrire avec plus de détails les 5 parties mentionnées précédemment dans l'ordre suivant, premièrement l'analyse d'image, deuxièmement l'interface graphique et l'interaction, troisièmement l'algorithme de résolution, quatrièmement le jeu, et cinquièmement le rassemblement des parties.
 
 
 
 
-\subsection{}
+\subsection{Général}
+
+Notre application à pour but de prendre en photo une grille de sudoku, analyser cette image, extraire les valeurs des cases et les afficher dans une grille, une fois que les valeurs sont dans l’application, on peut choisir de jouer ou de résoudre la grille en utilisant l’algorithme de résolution.\\
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=2cm]
+\node (start) [startstop] {Start};
+\node (in1) [io, below of=start] {Image};
+\node (pro1) [process, below of=in1] {Analyse d'image};
+\node (pro2) [process, below of=pro1] {Affichage};
+\node (dec1) [decision, below of=pro2, yshift=-0.5cm] {Jouer?};
+\node (pro2a) [process, right of=dec1, xshift=2cm] {Jeu};
+\node (dec1a) [decision, below of=pro2a, yshift=-0.5cm] {Fin jeu?};
+\node (dec2) [decision, below of=dec1, yshift=-0.5cm] {Résoudre?};
+
+\node (pro3) [process, below of=dec2
+, yshift=-0.5cm] {Resolution};
+
+\node (pro4) [process, left of=dec2, xshift=-2cm] {Update};
+
+\node (stop) [startstop, below of=pro3] {Stop};
+
+\draw [arrow] (start) -- (in1);
+\draw [arrow] (in1) -- (pro1);
+\draw [arrow] (pro1) -- (pro2);
+\draw [arrow] (pro2) -- (dec1);
+\draw [arrow] (pro2a) -- (dec1a);
+\draw [arrow] (dec1) -- node[anchor=south] {Oui}(pro2a);
+\draw [arrow] (dec1a) -- node[anchor=east] {Non}(pro2a);
+\draw [arrow] (dec1a) |- node[anchor=west] {Oui}(stop);
+\draw [arrow] (dec1) -- node[anchor=east] {Non}(dec2);
+\draw [arrow] (dec2) -- node[anchor=east] {Oui}(pro3);
+\draw [arrow] (dec2) -- node[anchor=south] {Non}(pro4);
+
+\draw [arrow] (pro4) |- (pro2);
+\draw [arrow] (pro3) -- (stop);
+
+\end{tikzpicture}
+ \caption{Schéma du fonctionnement général de l'application}
+\end{figure}
+\\
+\newpage
+\subsection{Analyse d'image}
+\subsection{Interface graphique et interaction}
+L’interface graphique est divisé en deux components principales, d’abord la grille de 81 cases, et après, les boutons nécessaires à l'utilisation de l’application. La deuxième partie est simplement une interface de menu classique, différentes boutons qui donneront accès aux autres parties de l’application. La première partie est chargée de l’affichage des données qui vient de l’analyse d’image ou de l'algorithme de résolution, et aussi est charge de permettre à l'utilisateur de modifier les valeurs des casses, pour qu'il puisse modifier la grille s’il y a eu un erreur avec l’analyse d’image ou s’il a choisi de jouer. Donc elle est beaucoup plus compliqué et nous allons l’expliquer plus en détaille.
+\\
+\\
+Nous avons créé 4 classes pour  mettre en place la grille, 
+
+\begin{itemize}
+    \item \textbf{EditeurGrille} \\
+La classe EditeurGrille est chargée de gérer les valeurs qui viennent de l’analyse d’image et l’algorithme de résolution, aussi du control des boutons pour la modification des valeurs. 
+
+    \item \textbf{Grille} \\
+La classe Grille contient tout les méthodes nécessaires pour faire la mise à jour de la grille, Grille lit les couleurs des casses, le nombre de chaque casse, et les affiche correctement.
+    
+    \item \textbf{Cases} \\
+La classe Cases contient 81 objets Case, et elle est chargée de les modifier tous ensemble et les gérer. 
+    
+    \item \textbf{Case} \\
+La classe Case représente une casse dans la grille, elle contient plusieurs attributs utiles pour l'éditeur et pour le jeu, principalement une Case contient une valeur et une couleur(blanc, bleu ou rouge), le couleur blanc représente une casse modifiable, bleu une casse non modifiable (si on n’est pas en mode jeu on peut toujour modifier une casse bleu), et rouge une casse avec une mauvaise valeur (utilisée seulement dans le jeu) . Case contient aussi autres attributs et méthodes mais ils seront expliqué avec plus de détaille dans la partie Jeu.
+
+
+\end{itemize}\\
+
+
+\subsection{Algorithme de résolution}
+\subsection*{Jeu}
+Pour le jeu nous avons créé la classe Jouer qui hérite de la classe EditeurGrille, le jeu fait la même chose que EditeurGrille, mais utilise des attributs dans la classe Case pour la logique de jeu. La classe Case contient deux attributs importants pour le jeu, estModifiable et valeurReponse,  quand nous essayons de changer la valeur d’une casse d’abord nous vérifions si elle est modifiable, après nous confirmons si nous avons mis la bonne valeur, si c'était le cas nous la transformons en non modifiable, nous changeons la valeur et la couleur en bleu et nous enlevons 1 au compteur de casses vides, sinon nous changeons la couleur en rouge et ajoutons 1 au compteur d’erreurs. Le jeu finit quand le nombre de cases vides est equal a 0.
+
+\subsection*{Rassemblement}
+Pour le rassemblement nous nous avons assurer que les autres parties étaient le plus indépendantes possibles, donc pour les rassembler nous avons utilisé les outils de notre système d'exploitation, Android, pour qu’elles puissent communiquer entre elles, et grâce à leur indépendance nous avons évité centaines de bugs. L’analyse d’image envoi de l’information à l'éditeur de grille, puis si le joueur souhaite la résolution, l’algorithme de résolution lui donne la réponse, sinon l'éditeur de grille envoi l’information de la grille à la classe Jouer, et le joueur peut jouer.
+
 
 
 \newpage
@@ -270,7 +350,7 @@ $Imgcodecs.imwrite(nouveau chemin,destination)$\\
     \item \textbf{Détecter les lignes de la grille}
 \end{itemize}\\
 
-Voici ci-dessous des algorithmes de traitement de l'image utilisés par OpenCV:
+
 
 Il fallait créer ensuite un système d'intelligence artificielle qui  allait essayer de comparer chaque chiffre de la grille avec des ressources et renvoyer une grille en résultat.
 
@@ -281,6 +361,7 @@ La derniere partie consistait à lier les trois classes c'est a dire notre class
 
 
 \newpage
+\chapter{\LARGE{\textbf{Chapitre 4}}}
 \section{Bilan et difficultés rencontrées}~\\
 
 \subsection{Bilan de l'avancement du projet}~\\
