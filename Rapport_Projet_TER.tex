@@ -13,6 +13,40 @@
 \tikzstyle{arrow} = [thick,->,>=stealth]
 %%%%%%%%%%%%%fin%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%pour le code%%%%%%%%%%%%%%%%%
+\usepackage{listings}
+\usepackage{color}
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},   commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=3
+}
+
+%"mystyle" code listing set
+\lstset{style=mystyle}
+
+%%%%%%%%%%%%%%%%fin%%%%%%%%%%%%%%%%
+
+
+
 \title{TER}
 \author{jeremy.simione }
 \date{April 2019}
@@ -53,7 +87,7 @@ Boudet Vincent
 \vspace*{0.1in}
 \begin{large}
 Etudiants: \\
-Simione Jérémy, Henriksen Leif, BESSON Thomas \\
+Simione Jérémy, Henriksen Leif \\
  
 \end{large}
 \end{center}
@@ -215,24 +249,16 @@ La classe Cases contient 81 objets Case, et elle est chargée de les modifier to
     \item Case \\
 La classe Case représente une casse dans la grille, elle contient plusieurs attributs utiles pour l'éditeur et pour le jeu, principalement une Case contient une valeur et une couleur(blanc, bleu ou rouge), le couleur blanc représente une casse modifiable, bleu une casse non modifiable (si on n’est pas en mode jeu on peut toujour modifier une casse bleu), et rouge une casse avec une mauvaise valeur (utilisée seulement dans le jeu) . Case contient aussi autres attributs et méthodes mais ils seront expliqué avec plus de détaille dans la partie Jeu.
 
+
 \end{itemize}\\
 
+
 \subsection{Algorithme de resolution}
-
 \subsection{Jeu}
-Tout d'abord il a fallut créer différents niveau de jeu pour le sudoku. Un iveau facile, intermédiaire et un niveau difficile. 
-Pour faire cela on a utilisé différentes strucutre. Une clase case pour chaque case du jeu et une clase Sudo9x9 permettant de pointer directement sur les cases via un tableau de 9 par 9. Cette clase Sudo9x9 permet de modifier les cases et de pouvoir résoudre un sudoku. 
+Pour le jeu nous avons créé la classe Jouer qui hérite de la classe EditeurGrille, le jeu fait la même chose que EditeurGrille, mais utilise des attributs dans la classe Case pour la logique de jeu. La classe Case contient deux attributs importants pour le jeu, estModifiable et valeurReponse,  quand nous essayons de changer la valeur d’une casse d’abord nous vérifions si elle est modifiable, après nous confirmons si nous avons mis la bonne valeur, si c'était le cas nous la transformons en non modifiable, nous changeons la valeur et la couleur en bleu et nous enlevons 1 au compteur de casses vides, sinon nous changeons la couleur en rouge et ajoutons 1 au compteur d’erreurs. Le jeu finit quand le nombre de cases vides est equal a 0.
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=0.5]{Img/digramme.png}
-    \caption{Diagramme UML pour jouer} 
-\end{figure}
-
-Sur la figure 1 nous pouvons donc voir le graphe UML de la section jeux. 
-Bien évidemment toutes les fonctions n'ont pas étaient représentées mais les plus importante sont sur le graphe. \\
-Pour créer un niveau on va appeler une instance de PlaySudoku qui permet de créer les niveaux. 
-
+\subsection{Rassemblement}
+Pour le rassemblement nous nous avons assurer que les autres parties étaient le plus indépendantes possibles, donc pour les rassembler nous avons utilisé les outils de notre système d'exploitation, Android, pour qu’elles puissent communiquer entre elles, et grâce à leur indépendance nous avons évité centaines de bugs. L’analyse d’image envoi de l’information à l'éditeur de grille, puis si le joueur souhaite la résolution, l’algorithme de résolution lui donne la réponse, sinon l'éditeur de grille envoi l’information de la grille à la classe Jouer, et le joueur peut jouer.
 
 
 
@@ -314,97 +340,343 @@ La derniere partie consistait a lier les trois classes c'est a dire notre classe
 
 Voici ci-dessous des algorithmes de traitement de l'image utilisés par OpenCV:
 
-
-\subsection{Création de Grille de jeu}
-(Tout les algorithmes présenter dans cette partie sont présent dans la classe Sudo9x9 qui a pour attribut un tableau de Case[9][9] appelé tabC).\\
-Pour créer une grille jouable il faut d'abord savoir si la grille est résolvable. 
-Pour ca on le fait en 3 étapes : 
-\begin{itemize}
-    \item Première étape : \\
-    On va d'abord créer une grille donc un tableau de 9x9 (initialisé avec des cases vide ou plutôt à 0);
-    \item Deuxième étape : \\
-    On va donc remplir notre tableau avec 10 valeur placé au hasard et avec une une valeur compris entre 1 et 9. 
-    
-
-\begin{algorithm}[H]
-\SetAlgoLined
-\KwData{Tableau à deux dimension de Case : T}
-\KwResult{Rempli le tableau avec des valeurs au hasard}
-
- i $\leftarrow$ chiffre aléatoire compris entre 1 et 9;\\
- j $\leftarrow$ chiffre aléatoire compris entre 1 et 9;\\
- c $\leftarrow$ On cré un case;
-
-\If{T(i,j) = 0}{
-T(i,j) $\leftarrow$ c;\\
-\While{Pas bon sur la ligne, la colonne et dans le bloc}
-    {
-     c $\leftarrow$ c.setValeur(chiffre compris entre 1 et 9);\\
-     T(i,j) $\leftarrow$ c;
-    }
-}
-{
-rempli(tabC);\\
-}
-
-
-\caption{Rempli(Case[][] T)}
-\end{algorithm}
-
-    \item Troisième étape : \\
-    On résoud la grille sur notre tableau via notre algorithme de résolution, ensuite on vide la tableau selon un certain nombre et selon le niveau. Puis on bloque les cases qui reste.
-    
-\begin{algorithm}[H]
-\SetAlgoLined
-\KwData{un entier n qui sera le nombre de case à vider}
-\KwResult{vider tabC}
-
- i $\leftarrow$ 0;\\
- j $\leftarrow$ 0;\\
-\While{n supérieur à 0}
-    {
-     i $\leftarrow$ prend un chiffre aléatoire entre 1 et 9;\\
- j $\leftarrow$ prend un chiffre aléatoire entre 1 et 9;\\
- \If{valeur de tabC(i,j) != 0}{
- valeur de tabC(i,j) $\leftarrow$ 0;\\
- n $\leftarrow$ n-1;
- }
-    }
-
-
-\caption{Vide(int n)}
-\end{algorithm}
 \newpage
+%%%%%%%%%%%%%%%partie leif%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Interface graphique}
+\subsubsection{XML et boutons}
+Tous les Activitys de Android ont un fichier XML ou est décrit leur apparence, dans le XML est décrit la position, taille, couleur, et autres caractéristiques des boutons, balises de texte etc.
+\begin{lstlisting}[language=Java, caption = Exemple balise XML] 
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="5"/>
+
+
+\end{lstlisting}
+Pour la grille nous avons utilisé la balise GridView, nous allons expliquer plus en dettaille cette balise dans la partie EditeurGrille, pour les boutons nous avons utilise la balise button, chaque button dans le XML contient different attributs pour modifier leur position et apparence, mais l’attribut le plus importante c’est le “id”, l’id nous permettra de utiliser le bouton application. Pour utiliser le nous modifions le fichier Java de notre activité et créons un méthode a exécuter quand nous touchons le bouton, 
+
+\begin{lstlisting}[language=Java, caption = Méthode du bouton] 
+
+void click(){
+//code
+}
+
+\end{lstlisting}
+
+et dans le XML, dans la balise bouton nous ajoutons 
+
+\begin{lstlisting}[language=Java] 
+android:onClick="click"
+
+\end{lstlisting}
+
+alors a chaque fois que on touche le bouton nous allons exécuter le code qui est dans click.
+Il y a une autre façon de faire aussi, dans le fichier Java nous créons une instance Button, 
+pour activer le bouton et décrire son comportement après de l’avoir touché, avec cette méthode nous utilisons l'id pour différencier les boutons.
+\begin{lstlisting}[language=Java, caption=Initialisation d'un bouton] 
+
+Button notreBouton= findViewById(R.id.notreBouton);  
+notreBouton.setOnClickListener(new View.OnClickListener() {
+    public void onClick(View v) {
+        // Code a executer
+    } 
+});
+
+\end{lstlisting}
+Les deux méthodes marchent mais la deuxième devient très verbeux si nous avons trop de boutons.
+\subsection{La grille}
+\subsubsection{Classe Case}
+Chaque instance de une Case represente une casse dans la grille, chaque Case contient quatre attributs, estModifiable, couleur, valeur, et valeurReponse.
+\\
+\\
+estModifiable est un boolean, si il est vrai la casse est modifible sinon elle ne l’est pas.
+\\
+\\
+couleur est un entier entre 0 et 2, 0 est le blanc et represent que une case est vide et modifiable, 1 est le bleu et represente que une casse est non modifiable et elle contient la valeur de la réponse, 2 est le rouge et 
+représente qu'une casse a une valeur différente à la valeurReponse.
+\\
+\\
+valeur est la valeur courante de la casse, et elle est la valeur que  nous affichons.
+\\
+\\
+valeurReponse est un attribut caché, il contient la valeur de la réponse de une case, il est utilisé pour le jeu, pour savoir si le jouer c’est trompe.
+
+\subsubsection{Classe Cases}
+La classe Cases est utilise pour stocker les 81 cases de la grille, accéder aux casses en utilisant la méthode getCaseAt(), et montrer la réponse de la grille en utilisant montrerReponse() qui change la valeur des cases pour la valeur de leur réponse. 
+\\
+\\
+\begin{lstlisting}[language=Java, caption = Méthode pour le remplissage de cases] 
+
+public void initJeu(List<String> vals, List<String> valsResolution) {
+ int x = 0;
+       
+ //9 lignes
+ for (int i = 0; i < 9; i += 3) {
+    //3 lignes
+    for (int e = 0; e < 3; e++){
+    //une lignes
+        for (int k = i; k < (i + 3); k++) {
+            for (int j = x; j < (x + 3); j++) {
+                if(vals.get(j).equals(""))
+                    cases.get(k).add(new Case(true, vals.get(j), valsResolution.get(j)));
+                        else
+                    cases.get(k).add(new Case(false, vals.get(j), valsResolution.get(j)));
+                }
+                    x = x + 3;
+            }
+        }
+    }
+}
+\end{lstlisting}
+\\
+Dans le listing 4, nous pouvons voir l'algorithme de remplissage, il prend comme entre les valeurs de la grille et les valeurs de résolution, notre grille ressemble une tableau de deux dimensions mais elle est une liste de liste, ou chaque liste représente une grille 9x9, pour bien remplir la liste cases nous allons changer de grille 9x9 tous les trois éléments.
+\\
+\\
+Par exemple si nous utilisons boucle normal le résultat c'est celui la,
+\begin{center}
+\begin{tabular}{ c c c c c c}
+ 0 & 1 & 2 & 9 & 10 & 11\\ 
+ 3 & 4 & 5 & 12 & 13 & 14\\  
+ 6 & 7 & 8 & 15 & 16 & 17  
+\end{tabular}
+\end{center}
+\\
+notre grille est représente par une liste de Strings donc si on veut la valeur de la position 6 on reçoit la valeur 3 au lieu de 6.
+\\
+\\
+Avec notre algorithme résultat c'est celui la,
+\begin{center}
+\begin{tabular}{ c c c c c c}
+ 0 & 1 & 2 & 3 & 4 & 5\\ 
+ 6 & 7 & 8 & 9 & 10 & 11 \\  
+ 12 & 13 & 14 & 15 & 16 & 17  
+\end{tabular}
+\end{center}
+\\
+ce méthode, évidement difficile a comprendre, nous permettra de utiliser la grille avec le numéro de la dernier GridView touche, et la position touche dans celui la pour accéder et modifier la bonne casse, .
+
+\subsubsection{Classe Grille}
+La classe Grille est charge de la manipulation des GridViews. Elle contient une instance de Cases pour stocker l'information des casses.
+
+\begin{itemize}
+
+\item{GridView}
+\\
+\\
+Une GridView prend une liste, dans notre cas un Array liste, après la GridView utilise les informations de la liste et les affiche en deux dimension, avec le nombre de colonnes donnés dans le XML. La liste peut avoir images, texte, ou autres, dans notre cas nous avons utilisé texte donc nous créons des TextViews dans setAdapter, et la GridView affichera les TextViews en forme de Grille.
+
+\begin{lstlisting}[language=Java, caption = Exemple setAdapter] 
+gv.setAdapter
+(new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, numbers.get(0))
+{
+public View getView(int position, View convertView, ViewGroup parent) {
+
+// Return the GridView current item as a View
+View view = super.getView(position,convertView,parent);
+
+// Convert the view as a TextView widget
+TextView tv = (TextView) view;
+
+//tv.setTextColor(Color.DKGRAY);
+
+                
+RelativeLayout.LayoutParams lp =  new RelativeLayout.LayoutParams(
+LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
+);
+    
+tv.setLayoutParams(lp);
+
+// Get the TextView LayoutParams
+RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)tv.getLayoutParams();
+
+tv.setLayoutParams(params);
+
+// Display TextView text in center position
+tv.setGravity(Gravity.CENTER);
+
+tv.setPadding(0,0,0,0);
+
+//set valeur
+tv.setText(cases.getCaseAt(0,position).getValeur());
+                
+// Set the TextView background color
+if(cases.getCaseAt(0,position).getCouleur() == 0) {
+    tv.setTextColor(Color.parseColor("black"));
+    tv.setBackgroundColor(Color.parseColor("white"));
+}
+else if(cases.getCaseAt(0,position).getCouleur() == 1) {
+    tv.setBackgroundColor(Color.parseColor("grey"));
+    tv.setTextColor(Color.parseColor("white"));
+}
+else
+    tv.setBackgroundColor(Color.parseColor("red"));
+               
+return tv;
+}
+});
+\end{lstlisting}
+\item{Liste vers liste de listes}
+\\
+\\
+La grille ressemble une mais en vrai c’est une liste de liste, donc pour accéder à une casse nous avons besoin du nombre de la Gridview et de la position dans la GridView.  Grâce au constructeur de Cases, le  listes ont la bonne valeur par exemple la casse 3 de la grille 1 représente la casse 9 de la liste et non pas la casse 3. Dans la partie difficultés nous allons expliquer pourquoi nous l'avons fait de ce manière la.
+
+\item{onClick}
+\\
+\\
+L'onClick de la classe Grille change la valeur de la dernier grille sélectionnée, la dernière position, la couleur de la casse en vert, et remet l'ancien casse touche à son couleur de base. 
+
+
+
+\begin{lstlisting}[language=Java, caption = Exemple d'une methode dans onclick] 
+case R.id.gv9: {
+if(activity.getPreviousSelectedGridView() == -1)                    
+    activity.setPreviousSelectedGridView(9);
+else if(activity.getPreviousSelectedGridView() != 9)
+    getGv(activity.getPreviousSelectedGridView()).invalidateViews();
+
+activity.setPreviousSelectedGridView(9);
+
+// Get the GridView selected/clicked item text
+String selectedItem = parent.getItemAtPosition(position).toString();
+
+//prendre la cellule actuelle
+TextView tv2 = (TextView) view;
+
+tv2.setBackgroundColor(Color.parseColor("#FF9AD082"));
+
+// Display the selected/clicked item text and position on TextView
+//tv.setText("GridView item clicked : " +selectedItem + "\nAt index position : " + position);
+
+TextView previousSelectedView = (TextView) gv9.getChildAt(activity.getPreviousSelectedPosition());
+
+// If there is a previous selected view exists
+if (position != activity.getPreviousSelectedPosition()) {
+    if (activity.getPreviousSelectedPosition() != -1) {
+        // Set the last selected View to deselect
+        previousSelectedView.setSelected(false);
+        switch (cases.getCaseAt(8,activity.getPreviousSelectedPosition()).getCouleur())
+            {
+                case 0:
+                 previousSelectedView.setBackgroundColor(Color.parseColor("white"));
+                break;
+                case 1:
+                 previousSelectedView.setBackgroundColor(Color.parseColor("grey"));
+                break;
+                case 2:
+                 previousSelectedView.setBackgroundColor(Color.parseColor("red"));
+                break;
+            }
+        // Set the last selected View text color as deselected item
+        //previousSelectedView.setTextColor(Color.DKGRAY);
+        }
+
+        // Set the current selected view position as previousSelectedPosition
+        activity.setPreviousSelectedPosition(position);
+    }
+}
+\end{lstlisting}
+
+
+
+
+
+
+\item{invalidateViews}
+\\
+\\
+On utilisé la méthode invalidateViews pour mettre à jour tous les grilles à jour. 
 \end{itemize}
 
-Notre algorithme final pour créer une grille de jeux est donc le suivant : 
+\subsubsection{Classe EditeurGrille}
+L’EditeurGrille est une activity, elle est charge d'initialiser la classe Grille et la classe Cases, puis les rassembler, elle est aussi chargée de gérer les boutons et leurs actions. EditeurGrille étant une activity possède un fichier XML, le fichier XML est composé de 3 LinearLayouts horizontales avec 3 GridView de dans, chaque GridView représente un carré 3x3 dans la grille, nous avons fait 9 GridView séparés pour pouvoir avoir de colonnes et lignes gras séparant les sections.  Après a la fin de le XML on trouve les boutons de 1 à 9, un bouton pour effacer, jouer et résoudre la grille.
 
-\begin{algorithm}[H]
-\SetAlgoLined
-\KwData{Un entier n pour savoir combien de case on va vider}
-\KwResult{Créer notre grille de jeu selon le niveau}
+\begin{itemize}
+    \item{onCreate}
+    \\
+    \\
+    La méthode onCreate c'est la premier méthode qui s'exécute dans l'Activity, donc EditeurGrille fait les étapes suivantes:
+    
+    \begin{itemize}
+        \item Récupérer le String donne par l'analyse d'image, nous allons détailler cette partie dans la partie rassemblement.
+        \item Initialiser les listes grilleAsList et grilleResolu.
+        \begin{lstlisting}[language=Java, caption = Initialisation listes] 
+grilleAsList = new ArrayList<String>(Arrays.asList(str));
+grilleResolu = new ArrayList<String>(Arrays.asList(str));
+        \end{lstlisting}
+        \item Utiliser la méthode setAdapters avec grilleAsList.
+        \item Résoudre grilleResolu que avant avait les mêmes valeurs que grilleAslist.
+        \item Initialiser une instance de Cases pour l'attribut grilles qui est une instance de Grille.
+        \item Initialiser le itemClickListener pour grilles.
+        \begin{lstlisting}[language=Java, caption = Initialisation itemClickListener] 
+itemClickListener = new AdapterView.OnItemClickListener() {
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+      grilles.click(parent, view, position, id, activity);
+    }
+};
+        
+grilles.setClickListeners(itemClickListener);
+\end{lstlisting}
+    
+    \end{itemize}
+    \item{onClick}
+    \\
+    \\
+    La methode onCLick d'EditeurGrille est charge de modifier les valeurs de la grille dans le cas ou l'analyse d'image se soit trompe, ou de montrer la résolution en utilisant la méthode motrerReponse de Cases.
+   \begin{lstlisting}[language=Java, caption = Exemple onClick EditeurGrille] 
+case R.id.button4:
+if(previousSelectedPosition != -1 && Sudoku.positionValide(Sudoku.listToArr(grilleAsList), 4, grilles.getPoints(posGrille).x, grilles.getPoints(posGrille).y))
+{
+  grilleAsList.set(grilles.getPositionGrille(previousSelectedGridView - 1, previousSelectedPosition), "4");
+  cases.getCaseAt(previousSelectedGridView-1,previousSelectedPosition).setValeur("4");
+}
+else
+{
+  Toast toast = Toast.makeText(getApplicationContext(),"Numero NON valide", Toast.LENGTH_LONG);
+  toast.setGravity(Gravity.CENTER, 0, 0);
+  toast.show();
+  }
+grilles.refreshNumbers(grilleAsList);
+grilles.invalidateViews();
+break;
+    \end{lstlisting}
 
- tabh $\leftarrow$ tableau à deux dimension de 9 par 9;\\
- \For{j de 0 à 8}{
- \For{k de 0 à 8}{
- tabC(j,k) $\leftarrow$ créer une case initialisé à 0;\\
- }
- }
- 
- \For{i de 0 à 9}{
- remplir tabC;\\
- }
- 
- tabh $\leftarrow$ convertir tabC qui est un tableau de case en tableau d'entier pour résoudre notre grille;\\
- resoudre(tabh,0);\\
- tabC $\leftarrow$ copie tabh dans tabC;\\
- vide(n);\\
+\end{itemize}
 
-\caption{Sudo9x9(int n)}
-\end{algorithm}
+\subsection{Jeu}
+Pour le jeu nous avons fait une classe qui herite de EditeurGrille, nous avons ajoute deux attributs casesVides et nbErreurs, si casesVides est egal à 0, alors le jeu c'est fini et nous changeons d'Activity, aussi si nbErreurs est superior à 10, le jeu fini.
+\\
+\\
+Nous avons modifie aussi l'onClick, nous révisons si le nombre choisi c'est le bon, si la réponse est oui, nous  soustrayons 1 à casesVides, changeons la case à non modifiable et changeons la couleur, sinon nous ajoutons 1 à nbErreurs et changeons de couleur.
+
+\subsection{Rassemblement}
+Pour le rassemblement nous avons mélange tout les Activitys, le menu principal, l'analyse d'image, l'éditeur de grille et le jeu. Pour cela nous avons d'abord ajouter tous les Activitys au manifeste, apres pour creer une autre Activity dans une Activity, nous creons un Intent de la manier suivante,
+\begin{lstlisting}[language=Java, caption = Creation Intent] 
+Intent intent = new Intent(this, NouvelleActivity.class);
+\end{lstlisting}
+\\
+apres pour passer de l'information à l'autre Activity nous écrivons le code suivante,
+\begin{lstlisting}[language=Java, caption = Envoyer un String[]] 
+intent.putExtra("EXTRA_MESSAGE", str);
+\end{lstlisting}
+\\
+dans notre cas nous envoyons un String[] appelé str, avec l'identifiant "EXTRA\_MESSAGE", pour commencer l'Activity nous faisons le suivant.
+\begin{lstlisting}[language=Java, caption = Commencer une Activity] 
+ startActivity(intent);
+\end{lstlisting}
+\\
+Apres dans la nouvelle Activity, pour recouper str nous faisons une instance de Bundle et on cherche dans cette instance str, utilisant son identifiant.
+\begin{lstlisting}[language=Java, caption = Récupérer une valeur] 
+ Bundle extras = getIntent().getExtras();
+ str2 = extras.getStringArray("EXTRA_MESSAGE");
+\end{lstlisting}
+\\
 
 
-\newpage
+%%%%%%%%%%%%%%%%%%%%fin%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Bilan et difficultés rencontrées}
 
 \subsection{Avancement du projet}
@@ -414,6 +686,8 @@ Notre algorithme final pour créer une grille de jeux est donc le suivant :
 
 
 \subsection{Difficultés rencontrées}
+
+\subsubsection{Analyse d'image}
 Pour la partie "Mise en place d'un systeme de reconnaissance de chiffres" nous avons été confrontés pour l la première fois a une bibliotheques de traitement d'image et la gestion d'une intelligence artificielle.\\\\
 Nous avons donc du nous former a cette bibliothèque et après de nombreux essais nous nous ne savions pas si notre système d'IA allait réussir à détecter notre image traitée c'est pourquoi après concertation avec notre encadrant nous avons décidé d'utiliser une classe déja existante nommée ImageManipulator qui traitait l'image comme nous avions besoin afin d'être sûr que le résultat serait correct et que l'image sera ainsi facilement lisible par l'IA.Nous sommes donc parvenus a surmonter cette difficulté en utilisant des classes deja existantes a savoir une classe qui nous a permis de manipuler l'image et une classe qui nous a servi d'intelligence artificielle.\\
 
@@ -422,9 +696,14 @@ Ensuite plus rien ne fonctionnait de la même façon il a donc fallu créer des 
 
 Cette partie a été de loin la plus longue et la plus dure.
 
+\subsubsection{Grille avec liste de liste}
+Au début la Grille était représenté uniquement par une liste et un seul GridView non pas neuf, donc trouver une case spécifique était facile, mais le problème était que la grille n'avait pas de lignes et colonnes gras, donc l'expérience de l'utilisateur n'était pas très agréable car trouver les chiffres était difficile. Pour résoudre cette problème nous avons pense à utiliser des images, mais le problème était que pour neuf chiffres il nous aurait fallu 81 images, neuf images pour le milieu, neuf images pour le coin gauche en haut, etc. Alors nous avons décidé de faire les neuf GridViews, cela a marche mais nous avons pris un temps considérable pour créer l'algorithme de remplissage avec décalage et mettre tout en ordre, car le système avec la liste de listes n'est pas très intuitive.
 
+\subsubsection{equals}
+Etant habitues à coder en C++ et ayant peu d'experience avec Java, nous avons utilise == pour comparer des Strings dans plusieurs parties de notre code, donc nous avons eu beaucoup de bugs, et le problème était que n'étant pas conscients de que == ne fonctionné pas pour les String en java, nous avons dépensé un temps importante à cherche des bugs dans des autres parties du code avant de trouver que c'était le == qui ne fonctionné pas. Aujourd'hui nous avons bien compris de ne pas utiliser == pour les Strings. 
 
-
+\subsubsection{Débogage avec Android}
+Le débugage avec n'est pas le même que dans un terminal, dans Android Studio nous avons un log qui marche plus ou moins comme un terminal et affiche des informations soit de l'application ou d'Android. Les deux problèmes que nous avons rencontré c'est que System.out.println() ne marchait pas tout le temps, donc au début nous avons dépensé du temps a résoudre cette problème, finalement nous avons trouve la classe Log d'Android qui est faite seulement pour afficher de l'information dans le log. Après nous nous avons rendu compte que parfois l'application donne trop d'information et elle disparaissait, nous n'avons pas résolu cette problème, la seule solution que nous avons trouve c'était de débrancher le téléphone.
 
 
 
